@@ -38,7 +38,7 @@ def cwt_fw(x, wtype, nv, dt):
         n2 = n1 + 1
     x = np.pad(x, (n1,n2), mode='constant')
     # Choosing more than this means the wavelet window becomes too short
-    noct = m.log2(N)-1
+    noct = np.log2(N)-1
     # assert (noct > 0 & m.fmod(noct,1) == 0),"there is a problem with noct"
     # assert (nv>0 & m.fmod(nv,1)==0), "nv has to be higher than 0"
     # assert (dt>0), "dt has to be higher than 0"
@@ -46,7 +46,7 @@ def cwt_fw(x, wtype, nv, dt):
      
     na = int(noct*nv)
     tmp = np.arange(1, na+1, 1, dtype = 'int')
-    aS = np.power(m.pow(2,1/nv), tmp)
+    aS = np.power(2**(1/nv), tmp)
     Wx = np.zeros((na, N),dtype=complex)
     #x = x(:).'
     xh = np.fft.fft(x)
@@ -61,8 +61,7 @@ def cwt_fw(x, wtype, nv, dt):
     aS = aS * dt
     
     Wxout = Wx[:,n1+1:n1+n+1]
-    return Wxout
-    return aS
+    return [Wxout, aS]
 
 def wfilth(wtype, N, a):
     #  Outputs the FFT of the wavelet of family 'type' with parameters
@@ -76,13 +75,13 @@ def wfilth(wtype, N, a):
     
     k = np.arange(0,N,1,dtype = 'int')
     xi = np.zeros(N,dtype='float')
-    xi[:int(N/2)+1] = 2 * m.pi/N * np.arange(0,N/2+1,1)
-    xi[int(N/2)+1:] = 2 * m.pi/N * np.arange(-N/2+1,0,1)
+    xi[:int(N/2)+1] = 2 * np.pi/N * np.arange(0,N/2+1,1)
+    xi[int(N/2)+1:] = 2 * np.pi/N * np.arange(-N/2+1,0,1)
     # psihfn = wfiltfn(xi, wtype);
     tmpxi = a*xi
     psih = wfiltfn(tmpxi, wtype);
     # Normalizing
-    psih = psih * m.sqrt(a) / m.sqrt(2*m.pi)
+    psih = psih * np.sqrt(a) / np.sqrt(2*np.pi)
     # Center around zero in the time domain
     psih = psih * np.power((-1),k);
     
@@ -100,12 +99,18 @@ def wfiltfn(xi, wtype):
 
     if wtype == 'mhat':
         s=1
-        psihfn = list(map(lambda w: -m.sqrt(8)*m.pow(s,5/2)*m.pow(m.pi,1/4)/m.sqrt(3)*m.pow(w,2)*m.exp(m.pow(-s,2)* m.pow(w,2/2)), xi))
+        psihfn = -np.sqrt(8) * s**(5/2) * (np.pi**(1/4)/np.sqrt(3)) * (xi**2) * np.exp((-s**2)*(xi**2/2))
+        # psihfn = list(map(lambda w: -m.sqrt(8)*m.pow(s,5/2)*m.pow(m.pi,1/4)/m.sqrt(3)*m.pow(w,2)*m.exp(m.pow(-s,2)* m.pow(w,2/2)), xi))
     if wtype == 'morlet':
         mu = 2*np.pi
-        cs = m.pow(1 + m.exp(m.pow(-mu,2)) - 2*m.exp(-3/4*m.pow(mu,2)), -1/2)
-        ks = m.exp((-1/2) * m.pow(mu,2))
-        psihfn = list(map(lambda w: cs*m.pow(m.pi,-1/4)*m.exp(-1/2*m.pow((mu-w),2)) - ks*m.exp(-1/2*m.pow(w,2)), xi))
+        cs = (1 + np.exp(-mu**2) - 2*np.exp(-3/4*(mu**2)))**(-1/2)
+        ks = np.exp(-1/2*(mu**2))
+        psihfn = cs*(np.pi**(-1/4)) * np.exp(-1/2*(mu-xi)**2) - ks*np.exp(-1/2*(xi**2))
+        
+        # cs = m.pow(1 + m.exp(m.pow(-mu,2)) - 2*m.exp(-3/4*m.pow(mu,2)), -1/2)
+        # ks = m.exp((-1/2) * m.pow(mu,2))
+        # psihfn = list(map(lambda w: cs*m.pow(m.pi,-1/4)*m.exp(-1/2*m.pow((mu-w),2)) - ks*m.exp(-1/2*m.pow(w,2)), xi))
+        
         #need to pass an error for unknown wavelet
         
     return np.array(psihfn)
@@ -126,27 +131,27 @@ tr =file1[0]
 testdata = tr.data
 delta = tr.stats.delta
 
-#all parameters
+# All parameters
 wtype = 'morlet'
 nvoices=16
-nv=nvoices
-x=testdata
-nbpblck = 1
-scale_min = 1.0
-scale_max = 200.0
-bthresh=0.0
-nnbnd = 1
-tstrn = 0.0
-tfinn = 60.0
-noisethresh = 2
-signalthresh = 0
-nsig = -2.0
-nsnr = 0
-nsnrlb = 1.0
+# nv=nvoices
+# x=testdata
+# nbpblck = 1
+# scale_min = 1.0
+# scale_max = 200.0
+# bthresh=0.0
+# nnbnd = 1
+# tstrn = 0.0
+# tfinn = 60.0
+# noisethresh = 2
+# signalthresh = 0
+# nsig = -2.0
+# nsnr = 0
+# nsnrlb = 1.0
 
 [Wx_new,as_new] = cwt_fw(testdata, wtype, nvoices, delta)
 
 # %% plot the wavelet
 Wxout=Wx_new
-plt.imshow(abs(Wxout), extent=[0, 45000, 1, 240], aspect = 'auto')
+#plt.imshow(abs(Wxout), extent=[0, 45000, 1, 240], aspect = 'auto')
 plt.imshow(abs(Wxout), aspect = 'auto')
