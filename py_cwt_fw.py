@@ -102,7 +102,7 @@ def wfiltfn(xi, wtype):
         s=1
         psihfn = list(map(lambda w: -m.sqrt(8)*m.pow(s,5/2)*m.pow(m.pi,1/4)/m.sqrt(3)*m.pow(w,2)*m.exp(m.pow(-s,2)* m.pow(w,2/2)), xi))
     if wtype == 'morlet':
-        mu = 2
+        mu = 2*np.pi
         cs = m.pow(1 + m.exp(m.pow(-mu,2)) - 2*m.exp(-3/4*m.pow(mu,2)), -1/2)
         ks = m.exp((-1/2) * m.pow(mu,2))
         psihfn = list(map(lambda w: cs*m.pow(m.pi,-1/4)*m.exp(-1/2*m.pow((mu-w),2)) - ks*m.exp(-1/2*m.pow(w,2)), xi))
@@ -115,7 +115,7 @@ def wfiltfn(xi, wtype):
     
 import obspy as ob
 import os
-import math
+import matplotlib.pyplot as plt
 
 mainpath = '/Users/aguiarmoya1/Research/Denoising/bc_v1.1/data/'
 os.chdir(mainpath)
@@ -129,6 +129,8 @@ delta = tr.stats.delta
 #all parameters
 wtype = 'morlet'
 nvoices=16
+nv=nvoices
+x=testdata
 nbpblck = 1
 scale_min = 1.0
 scale_max = 200.0
@@ -143,3 +145,8 @@ nsnr = 0
 nsnrlb = 1.0
 
 [Wx_new,as_new] = cwt_fw(testdata, wtype, nvoices, delta)
+
+# %% plot the wavelet
+Wxout=Wx_new
+plt.imshow(abs(Wxout), extent=[0, 45000, 1, 240], aspect = 'auto')
+plt.imshow(abs(Wxout), aspect = 'auto')
