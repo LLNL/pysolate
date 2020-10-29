@@ -39,10 +39,10 @@ def cwt_fw(x, wtype, nv, dt):
     x = np.pad(x, (n1,n2), mode='constant')
     # Choosing more than this means the wavelet window becomes too short
     noct = np.log2(N)-1
-    # assert (noct > 0 & m.fmod(noct,1) == 0),"there is a problem with noct"
-    # assert (nv>0 & m.fmod(nv,1)==0), "nv has to be higher than 0"
-    # assert (dt>0), "dt has to be higher than 0"
-    # assert (not np.isnan(x)),"x has null values"
+    assert noct > 0 and m.fmod(noct,1) == 0,"there is a problem with noct"
+    assert nv>0 and m.fmod(nv,1)==0, "nv has to be higher than 0"
+    assert dt>0, "dt has to be higher than 0"
+    # assert np.isnan(x) is False,"x has null values"
      
     na = int(noct*nv)
     tmp = np.arange(1, na+1, 1, dtype = 'int')
