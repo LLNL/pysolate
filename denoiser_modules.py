@@ -31,7 +31,7 @@
 # Emulating container types
 # https://docs.python.org/3/reference/datamodel.html?emulating-container-types#emulating-container-types
 
-class Parameters(object):
+class Parameter(object):
     """
     A container for parameters required to set up and run the denoiser.
     
@@ -126,7 +126,7 @@ class Parameters(object):
 
     def __str__(self):
         """
-        Return better readable string representation of Parameters object.
+        Return better readable string representation of Parameter object.
         """
         min_key_length = 12
         keys = self.__dict__.keys()
@@ -150,7 +150,7 @@ class Parameters(object):
 # -
 
 # Test
-param = Parameters(nvoices=8)
+param = Parameter(nvoices=8)
 print(param)
 param.nsigma = "Donoho"
 print(param)
