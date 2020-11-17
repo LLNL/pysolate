@@ -82,8 +82,7 @@ def forward_cwt(time_series, wave_type, nvoices, dt):
     :type time_series: list or :class:`numpy.ndarray`
     :param wave_type: wavelet function.
     :type wave_type: str
-    :param nvoices: number of voices refers to the sampling of CWT in scale,
-        higher number of voices give finer resolution. Default is ``16``.
+    :param nvoices: sampling of CWT in scale.
     :type nvoices: int
     :param dt: sampling period.
     :type dt: float
@@ -143,8 +142,7 @@ def inverse_cwt(Wx, wave_type, nvoices):
     :type Wx: :class:`numpy.ndarray`
     :param wave_type: wavelet function.
     :type wave_type: str
-    :param nvoices: number of voices refers to the sampling of CWT in scale,
-        higher number of voices give finer resolution. Default is ``16``.
+    :param nvoices: sampling of CWT in scale.
     :type nvoices: int
     :return time_series: time series data.
     :rtype time_series: :class:`numpy.ndarray`
