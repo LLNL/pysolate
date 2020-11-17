@@ -8,7 +8,7 @@
 pyBlockSeis - Block Choice Seismic Analysis in Python
 =====================================================
 
-tdmtpy is a tool for processing seismic data using continuous wavelet transform (CWT).
+pyblockseis is a tool for processing seismic data using continuous wavelet transform (CWT).
 The tool is based on the Matlab software Block Choice Seismic Analysis (BCseis, version 1.1)
 by Charles A. Langston and S. Mostafa Mousavi.
 
