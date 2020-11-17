@@ -65,4 +65,3 @@ docs/reference/autogen
 
 # ipython notebooks
 .ipynb_checkpoints
-*.ipynb
