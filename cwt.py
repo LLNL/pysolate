@@ -1,5 +1,5 @@
 # cwt.py
-# 
+#
 # Code modified from the BCseis MatLab version from Langston et al. 
 # at U. ofMenphis http://www.ceri.memphis.edu/people/clangstn/index.html
 #
@@ -8,10 +8,10 @@
 # Forward continuous wavelet transform, discretized, as described
 # in Mallat, S., Wavelet Tour of Signal Processing 3rd ed.Sec. 4.3.3.
 #
-#---------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 # Modified after a wavelet transform matlab codes by Eugene Brevdo
 # mofifications implemented in Matlab by Chuck Langston @ Memphis
-#---------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
 
 import numpy as np
 import math as m
