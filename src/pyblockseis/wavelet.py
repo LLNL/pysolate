@@ -5,7 +5,7 @@
 #        Ana Aguiar Moya (aguiarmoya1@llnl.gov)
 #        Andrea Chiang (andrea4@llnl.gov)
 #
-# Functions are based on the MATLAB Synchrosqueezing Toolbox by Eugene Brevdo.
+# Wavelet transform functions are based on the MATLAB Synchrosqueezing Toolbox by Eugene Brevdo.
 # (http://www.math.princeton.edu/~ebrevdo/)
 
 import math
@@ -36,7 +36,6 @@ def wfilth(wave_type, N, a):
     xi = np.zeros(N, dtype=float)
     xi[:int(N/2)+1] = 2 * math.pi/N * np.arange(0,N/2+1, 1)
     xi[int(N/2)+1:] = 2 * math.pi/N * np.arange(-N/2+1, 0, 1)
-    # psihfn = wfiltfn(xi, wtype)
     tmpxi = a*xi
     psih = wfiltfn(tmpxi, wave_type)
     # Normalizing
@@ -59,7 +58,7 @@ def wfiltfn(xi, wave_type):
     :rtype psihfn: :class:`numpy.ndarray`
     """
     if wave_type == "mhat":
-        s=1
+        s = 1
         psihfn = -np.sqrt(8) * s**(5/2) * (np.pi**(1/4)/np.sqrt(3)) * (xi**2) * np.exp((-s**2)*(xi**2/2))
     elif wave_type == "morlet":
         mu = 2*np.pi
@@ -67,16 +66,16 @@ def wfiltfn(xi, wave_type):
         ks = np.exp(-1/2*(mu**2))
         psihfn = cs*(np.pi**(-1/4)) * np.exp(-1/2*(mu-xi)**2) - ks*np.exp(-1/2*(xi**2))
     elif wave_type == "shannon":
-    	pass
+        pass
     elif wave_type == "hhat":
-    	pass
+        pass
         
     return np.array(psihfn)
 
 
-def forward_cwt(time_series, wave_type, nvoices, dt):
+def cwt(time_series, wave_type, nvoices, dt):
     """
-    Continuous wavelet tranform using the wavelet function.
+    Continuous wavelet transform using the wavelet function.
 
     :param time_series: input time series data.
     :type time_series: list or :class:`numpy.ndarray`
@@ -192,3 +191,33 @@ def inverse_cwt(Wx, wave_type, nvoices):
     time_series = x[0][n1+1:n1+n+1]
     
     return time_series
+
+
+def blockbandpass(Wx, scales, scale_min, scale_max, block_threshold):
+    
+    """
+    Apply a band reject filter to modify the wavelet coefficients over a scale bandpass.
+    
+    :param Wx: wavelet transform of shape (len(scales), len(time_series))
+    :type Wx: :class:`numpy.ndarray`
+    :param scale_min: minimum time scale for bandpass blocking.
+    :type scale_min: float
+    :param scale_max: maximum time scale for bandpass blocking.
+    :type scale_max: float
+    :param block_threshhold: percent amplitude adjustment to the wavelet coefficients within
+        ``scale_min`` and ``scale_max``.
+    :type block_threshold: float
+    :return: modified wavelet transform of shape (len(scales), len(time_series)).
+    :rtype: :class:`numpy.ndarray`
+    """    
+    na, n = np.shape(Wx)
+    thresh = block_threshold*0.01
+      
+    a = np.ones((1,na))
+    a = a*[ (scales <= scale_min) | (scales >= scale_max) ]
+    
+    for k in range(na):
+        if a[0,k] == 0:
+            a[0,k] = thresh
+    
+    return Wx*a.T

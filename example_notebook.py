@@ -41,26 +41,69 @@ sys.path.append("src")
 import pyblockseis as bcs
 from obspy.core import read
 import matplotlib.pyplot as plt
-# -
 
-sacfile = "/Users/chiang4/Work/NNSA/LYNM/denoiser/bc_v1.1/data/5014.YW.0.sp0011.DPZ"
-st = read(sacfile)
-param = bcs.Parameter()
-block = bcs.Block(choice=param,data=st)
-block.batch_process()
+import timeit
 
 # +
-# Plot the wavelet
-fig = plt.figure(figsize=(10,6.5))
-ax1 = fig.add_subplot(2,1,1)
-ax1.imshow(abs(block.cwt[0]), aspect = 'auto') # need to fix x-axis to time
-ax1.set_ylabel("log10 Scale")
-ax1.set_title("Time Frequency Representation (TRF)")
+# Read example data from BCseis
+sacfile = "/Users/chiang4/Work/NNSA/LYNM/denoiser/bc_v1.1/data/5014.YW.0.sp0011.DPZ"
+#sacfile = "/Users/chiang4/Work/NNSA/LYNM/denoiser/bc_v1.1/data/*DPZ" # multiple traces
+st = read(sacfile)
 
-ax2 = fig.add_subplot(2,1,2)
-trace = block.data[0]
-ax2.plot(trace.times(), trace.data, color="black", linewidth=1)
-ax2.plot(trace.times(), block.icwt[0], "r--", linewidth=0.8)
-ax2.set_xlim([0,max(st[0].times())])
-ax2.set_xlabel("Time [s]")
-plt.show()
+start = timeit.timeit()
+# Use the default values to process time series
+# Refer to :class:pyblockseis.Parameter docstring for details
+params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
+
+# Initalize the block processing module
+block = bcs.Block(choice=params, data=st)
+
+# Run the denoiser
+block.run()
+end = timeit.timeit()
+print("Run took %.4f seconds"%(end - start))
+
+# Plot results
+block.plot("input")
+#block.plot("band_rejected")
+#block.plot("noise_removed")
+#block.plot("signal_removed")
+# -
+
+import numpy as np
+plt.figure()
+plt.title("Noise model")
+plt.plot(block.data[0].wavelet.P,"k",label="P-python")
+plt.plot(block.data[0].wavelet.M,"k--",label="mean-python")
+matP = np.loadtxt("tmp/P.txt")
+plt.plot(matP,"r",label="P-matlab")
+plt.legend()
+
+plt.figure(figsize=(20,5))
+plt.title("Hard thresholding to remove noise")
+plt.plot(block.data[0].wavelet.icwt["noise_removed"],"k",linewidth=0.5,label="python")
+trace = read("tmp/icwtblock_noisehard.sac",format="SAC")[0]
+plt.plot(trace.data,"r--",linewidth=0.5,label="matlab")
+plt.xlim([16000,22000])
+plt.legend()
+
+plt.figure(figsize=(20,5))
+plt.title("Hard thresholding to remove signal")
+plt.plot(block.data[0].wavelet.icwt["signal_removed"],"k",linewidth=0.5,label="python")
+trace = read("tmp/icwtblock_signalhard.sac",format="SAC")[0]
+plt.plot(trace.data,"r--",linewidth=0.5,label="matlab")
+plt.xlim([16000,22000])
+plt.legend()
+
+# Test update functions
+block.params.nsigma_method = "donoho"
+block.params.bandpass_blocking = False
+block.params.estimate_noise = True
+block.params.snr_detection = True
+block.run()
+block.plot("signal_removed")
+
+# Test refresh functions
+block.params.estimate_noise = False
+block.run()
+block.plot("signal_removed")
