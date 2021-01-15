@@ -10,7 +10,7 @@ import numpy as np
 from copy import deepcopy
 
 from .wavelet import cwt, inverse_cwt, blockbandpass
-from .threshold import noise_model, noise_thresholding, signal_thresholding, SNR_detect
+from .threshold import noise_model, noise_thresholding, signal_thresholding
 import matplotlib.pyplot as plt
 
 
@@ -55,7 +55,7 @@ class Parameter(object):
         distribution method. You can also specify the number of standard deviations by entering a number.
         None ECDF method assumes Gaussian statistic. The default method ``"ECDF"`` is recommended.
     :type nsigma_method: str, int, float
-    :param snr_detection: Flag to apply the SNR detection method, deafult is ``False``. If ``True`` it
+    :param snr_detection: Flag to apply the SNR detection method, default is ``False``. If ``True`` it
         will be applied before hard thresholding.
     :type snr_detection: bool
     :param snr_lowerbound: Noise level percent lower bound. Default is ``1.0``.
@@ -188,8 +188,8 @@ class Wavelet(object):
         self.M = None
         self.S = None
         self.P = None
-        self.window_start = None
-        self.window_end = None
+        #self.window_start = None
+        #self.window_end = None
 
     def __getitem__(self, key):
         return self.__dict__[key]
@@ -299,26 +299,21 @@ class Block(object):
     def call_noise_model(self):
         for trace in self.data:
             wx = trace.wavelet.cwt[self.wavelet_function]
-            M, S, P, window_start, window_end = noise_model(wx, trace.stats.delta,
-                                                  self.params.noise_starttime, self.params.noise_endtime,
-                                                  self.params.nsigma_method, self.params.snr_lowerbound)
-            if self.params.snr_detection:
-                M, S = SNR_detect(wx, M, window_start, window_end, self.params.snr_lowerbound)
+            M, S, P = noise_model(wx, trace.stats.delta, self.params.noise_starttime, self.params.noise_endtime,
+                                  self.params.nsigma_method, self.params.snr_lowerbound, self.params.snr_detection)
 
             trace.wavelet.M = M
             trace.wavelet.S = S
             trace.wavelet.P = P
-            trace.wavelet.window_start = window_start
-            trace.wavelet.window_end = window_end
 
-    def call_snr_detection(self):
-        # Call this function if noise model exists
-        for trace in self.data:
-            wx = trace.wavelet.cwt[self.wavelet_function]
-            M, S = SNR_detect(wx, trace.wavelet.M,
-                              trace.wavelet.window_start, trace.wavelet.window_end, self.params.snr_lowerbound)
-            trace.wavelet.M = M
-            trace.wavelet.S = S
+#    def call_snr_detection(self):
+#        # Call this function if noise model exists
+#        for trace in self.data:
+#            wx = trace.wavelet.cwt[self.wavelet_function]
+#            M, S = SNR_detect(wx, trace.wavelet.M,
+#                              trace.wavelet.window_start, trace.wavelet.window_end, self.params.snr_lowerbound)
+#            trace.wavelet.M = M
+#            trace.wavelet.S = S
 
     def apply_thresholding(self,method):
         _get_function = {"noise_removed": (noise_thresholding, self.params.noise_threshold),
@@ -358,7 +353,7 @@ class Block(object):
             refresh_noise = [] # noise model parameters to refresh
             apply_blocking = False
             apply_noise_model = False
-            apply_snr_detection = False
+            #apply_snr_detection = False
             apply_noise_threshold = False
             apply_signal_threshold = False
 
@@ -378,18 +373,19 @@ class Block(object):
                     # Turned on noise
                     apply_noise_model = True
                 elif any(key in changed_keys
-                         for key in ["noise_starttime", "noise_endtime", "nsigma_method", "snr_lowerbound"]):
+                         for key in ["noise_starttime", "noise_endtime", "nsigma_method",
+                                     "snr_lowerbound","snr_detection"]):
                     # changed any model parameters
                     apply_noise_model = True
-                else:
-                    # Check if SNR detection is turned on when noise model is the same
-                    if self.params["snr_detection"]:
-                        if "snr_detection" in changed_keys:
-                            # turned on detection
-                            apply_snr_detection = True
-                        elif "snr_lowerbound" in changed_keys: # on-on
-                            # changed detection bounds
-                            apply_snr_detection = True
+                #else:
+                #    # Check if SNR detection is turned on when noise model is the same
+                #    if self.params["snr_detection"]:
+                #        if "snr_detection" in changed_keys:
+                #            # turned on detection
+                #            apply_snr_detection = True
+                #        elif "snr_lowerbound" in changed_keys: # on-on
+                #            # changed detection bounds
+                #            apply_snr_detection = True
                 # Check and update noise thresholding
                 if self.params.noise_threshold is None:
                     refresh_waves.append("noise_removed")
@@ -413,10 +409,9 @@ class Block(object):
                     elif apply_noise_model:
                         apply_signal_threshold = True
             else:
-                refresh_noise = ["M", "S", "P", "window_start", "window_end"]
+                refresh_noise = ["M", "S", "P"]
                 refresh_waves.append("noise_removed")
                 refresh_waves.append("signal_removed")
-
 
             # Apply changes
             if apply_blocking:
@@ -425,9 +420,9 @@ class Block(object):
             if apply_noise_model:
                 print("Apply new noise model.")
                 self.call_noise_model()
-            if apply_snr_detection:
-                print("Apply new snr detection.")
-                self.call_snr_detection()
+            #if apply_snr_detection:
+            #   print("Apply new snr detection.")
+            #    self.call_snr_detection()
             if apply_noise_threshold:
                 print("Apply new noise thresholding.")
                 self.apply_thresholding("noise_removed")
@@ -439,7 +434,6 @@ class Block(object):
                 self.refresh_cwt_icwt(refresh_waves)
             if len(refresh_noise) > 0:
                 self.refresh_noise_model(refresh_noise)
-            # No updates
 
     def refresh_cwt_icwt(self,wavelet_functions):
         # refresh cwt and icwt
@@ -495,7 +489,6 @@ class Block(object):
         """
         Return better readable string representation of Block object.
         """
-
         pretty_string = '\n'.join(["| Denoising parameters for %d time series |"%len(self.data),
             self.params.__str__()])
         ""
