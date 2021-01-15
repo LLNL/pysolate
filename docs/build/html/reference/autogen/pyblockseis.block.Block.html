@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyblockseis.block.Block &#8212; pyblockseis 0.1.dev documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pyblockseis.block.Block.apply_bandpass_blocking" href="pyblockseis.block.Block.apply_bandpass_blocking.html" />
+    <link rel="prev" title="pyblockseis.block" href="pyblockseis.block.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pyblockseis</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://mybitbucket.llnl.gov/users/aguiarmoya1/repos/denoiser">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#acknowledgements">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#core-modules">Core Modules</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">pyblockseis.block.Block</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="pyblockseis.block.html" title="Previous Chapter: pyblockseis.block"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pyblockseis.block</span>
+    </a>
+  </li>
+  <li>
+    <a href="pyblockseis.block.Block.apply_bandpass_blocking.html" title="Next Chapter: pyblockseis.block.Block.apply_bandpass_blocking"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pyblockseis.b... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../_sources/reference/autogen/pyblockseis.block.Block.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="section" id="pyblockseis-block-block">
+<h1>pyblockseis.block.Block<a class="headerlink" href="#pyblockseis-block-block" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyblockseis.block.Block">
+<em class="property">class </em><code class="sig-name descname">Block</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">choice</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/block.html#Block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyblockseis.block.Block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Block Choice Seismic Analysis in Python</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choice</strong> (<a class="reference internal" href="pyblockseis.block.Parameter.html#pyblockseis.block.Parameter" title="pyblockseis.block.Parameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a>) – parameters required to run the denoiser.</p></li>
+<li><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Stream</span></code> or) – obspy stream.</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – sampling period required if data is <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>.</p></li>
+<li><p><strong>num_of_traces</strong> (<em>int</em>) – number of time series.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.apply_bandpass_blocking.html#pyblockseis.block.Block.apply_bandpass_blocking" title="pyblockseis.block.Block.apply_bandpass_blocking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_bandpass_blocking</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.block.Block.apply_thresholding.html#pyblockseis.block.Block.apply_thresholding" title="pyblockseis.block.Block.apply_thresholding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_thresholding</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.call_cwt.html#pyblockseis.block.Block.call_cwt" title="pyblockseis.block.Block.call_cwt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call_cwt</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.block.Block.call_noise_model.html#pyblockseis.block.Block.call_noise_model" title="pyblockseis.block.Block.call_noise_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">call_noise_model</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.plot.html#pyblockseis.block.Block.plot" title="pyblockseis.block.Block.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a></p></td>
+<td><p>Plot time-frequency representation (TFR) of a single time series.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.block.Block.reconstruct.html#pyblockseis.block.Block.reconstruct" title="pyblockseis.block.Block.reconstruct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reconstruct</span></code></a></p></td>
+<td><p>Reconstruct time series</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.refresh_cwt_icwt.html#pyblockseis.block.Block.refresh_cwt_icwt" title="pyblockseis.block.Block.refresh_cwt_icwt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh_cwt_icwt</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.block.Block.refresh_noise_model.html#pyblockseis.block.Block.refresh_noise_model" title="pyblockseis.block.Block.refresh_noise_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh_noise_model</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.run.html#pyblockseis.block.Block.run" title="pyblockseis.block.Block.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.block.Block.run_all.html#pyblockseis.block.Block.run_all" title="pyblockseis.block.Block.run_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_all</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.update_run.html#pyblockseis.block.Block.update_run" title="pyblockseis.block.Block.update_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_run</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
