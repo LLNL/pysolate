@@ -13,11 +13,10 @@
 #     name: obspy
 # ---
 
-# #### Software package name
-# pyBlockSeis - Block Choice Seismic Analysis in Python
+# #### pyBlockSeis - Block Choice Seismic Analysis in Python
 #
-# 1. Input data: time series, delta
-# 2. Input parameters
+# 1. Input data: time series
+# 2. Input parameters (Parameter object)
 # 3. Functions
 #   - compute continuous wavelet transform (CWT)
 #   - apply a block bandpass
@@ -28,7 +27,9 @@
 #   - apply hard thresholding to the signal (signal removal)
 #   - apply soft thresholding to the signal (signal removal)
 #   - compute the inverse CWT
-# 4. Example of computation in parallel https://deepgraph.readthedocs.io/en/latest/tutorials/pairwise_correlations.html
+#   
+# Planned updates:
+# 1. Computation in parallel (e.g. https://deepgraph.readthedocs.io/en/latest/tutorials/pairwise_correlations.html)
 #
 # ### Acknowledgements
 # - Python adpation of the Matlab software Block Choice Seismic Analysis (BCseis, version 1.1) by Charles A. Langston and S. Mostafa Mousavi.
@@ -61,14 +62,16 @@ block = bcs.Block(choice=params, data=st)
 # Run the denoiser
 block.run()
 end = timeit.timeit()
-print("Run took %.4f seconds"%(end - start))
 
 # Plot results
 block.plot("input")
-#block.plot("band_rejected")
-#block.plot("noise_removed")
-#block.plot("signal_removed")
+block.plot("band_rejected")
+block.plot("noise_removed")
+block.plot("signal_removed")
+print("Run took %.4f seconds"%(end - start))
 # -
+
+block.data[0].wavelet
 
 import numpy as np
 plt.figure()
@@ -95,6 +98,26 @@ plt.plot(trace.data,"r--",linewidth=0.5,label="matlab")
 plt.xlim([16000,22000])
 plt.legend()
 
+block.params.noise_threshold="soft"
+block.params.signal_threshold="soft"
+block.run()
+
+plt.figure(figsize=(20,5))
+plt.title("Soft thresholding to remove noise")
+trace = read("tmp/icwtblock_noisesoft.sac",format="SAC")[0]
+plt.plot(trace.data,"r-",linewidth=0.5,label="matlab")
+plt.plot(block.data[0].wavelet.icwt["noise_removed"],"k",linewidth=0.5,label="python")
+plt.xlim([16000,28000])
+plt.legend()
+
+plt.figure(figsize=(20,5))
+plt.title("Soft thresholding to remove signal")
+trace = read("tmp/icwtblock_signalsoft.sac",format="SAC")[0]
+plt.plot(trace.data,"r-",linewidth=0.5,label="matlab")
+plt.plot(block.data[0].wavelet.icwt["signal_removed"],"k",linewidth=0.5,label="python")
+plt.xlim([10000,30000])
+plt.legend()
+
 # Test update functions
 block.params.nsigma_method = "donoho"
 block.params.bandpass_blocking = False
@@ -107,3 +130,10 @@ block.plot("signal_removed")
 block.params.estimate_noise = False
 block.run()
 block.plot("signal_removed")
+
+tr = st[0]
+tr_ref = tr.slice(starttime=tr.stats.starttime+1,endtime=tr.stats.starttime+200)
+tr.data.shape
+tr_ref.data.shape
+
+params

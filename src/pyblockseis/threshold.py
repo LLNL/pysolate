@@ -22,7 +22,34 @@ def ecdf(x):
     return (ys, xs)
 
 
-def noise_model(Wx, delta, noise_starttime, noise_endtime, nsigma_method, nlbound):
+def SNR_detect(Wx, M, newbeg, newend, snr_lowerbound):
+    """
+    Apply SNR detection to CWT.
+
+    :param Wx: wavelet transform of shape (len(scales), len(time_series))
+    :type Wx: :class:`numpy.ndarray`
+    :param M: mean of noise model.
+    :type M: :class:`numpy.ndarray`
+    :param snr_lowerbound: noise level lower bound in percent.
+    :type snr_lowerbound: float
+    :return M_new: mean of noise model.
+    :rtype M_new: standard deviation of noise model.
+    :return S: :class:`numpy.ndarray`
+    :rtype S: :class:`numpy.ndarray`
+
+    """
+    nlbound = snr_lowerbound * 0.01
+    M_max = np.max(np.abs(M))
+    Wx = (Wx.T / (M + nlbound * M_max)).T
+
+    # Recalculate the noise model for possible further use
+    M = np.mean(np.abs(Wx[:, newbeg:newend]), axis=1)  # point to re-calculated mean
+    S = np.std(np.abs(Wx[:, newbeg:newend]), axis=1)
+
+    return (M, S)
+
+
+def noise_model(Wx, delta, noise_starttime, noise_endtime, nsigma_method, nlbound, detection=False):
     """
     Calculates noise model and threshold function.
     
@@ -40,6 +67,8 @@ def noise_model(Wx, delta, noise_starttime, noise_endtime, nsigma_method, nlboun
     :type nlbound: float
     :param nsigma_gauss: umber of std for block threshold using Gaussian statistic.
     :type nsigma_gauss: float
+    :param detection: If ``True`` it will be applied before hard thresholding. default is ``False``.
+    :type detection: bool
     :return M: mean of noise model.
     :rtype M: :class:`numpy.ndarray`
     :return S: standard deviation of noise model.
@@ -48,8 +77,6 @@ def noise_model(Wx, delta, noise_starttime, noise_endtime, nsigma_method, nlboun
     :rtype P: :class:`numpy.ndarray`
     """
     # Get the time window
-    #newbeg = int(np.round(noise_starttime/delta) +1)
-    #newend = int(np.round(noise_endtime/delta) +1)
     newbeg = int(np.round(noise_starttime/delta)) # python indexing starts with zero
     newend = int(np.round(noise_endtime/delta)+1)
 
@@ -78,34 +105,12 @@ def noise_model(Wx, delta, noise_starttime, noise_endtime, nsigma_method, nlboun
         # assuming Gaussian statistics
         P = M + nsigma * S
             
-    return (M, S, P, newbeg, newend)
+    # SNR detection
+    if detection:
+        M, S = SNR_detect(Wx, M, newbeg, newend, nlbound)
 
-
-def SNR_detect(Wx, M, newbeg, newend, snr_lowerbound):
-    """
-    Apply the SNR detection method
-
-    :param Wx: wavelet transform of shape (len(scales), len(time_series))
-    :type Wx: :class:`numpy.ndarray`
-    :param M: mean of noise model.
-    :type M: :class:`numpy.ndarray`
-    :param snr_lowerbound: noise level lower bound in percent.
-    :type snr_lowerbound: float
-    :return M_new: mean of noise model.
-    :rtype M_new: standard deviation of noise model.
-    :return S: :class:`numpy.ndarray`
-    :rtype S: :class:`numpy.ndarray`
-        
-    """
-    nlbound = snr_lowerbound*0.01
-    M_max = np.max(np.abs(M))
-    Wx = (Wx.T / (M+nlbound*M_max)).T
-    
-    # Recalculate the noise model for possible further use
-    M_new = np.mean(np.abs(Wx[:,newbeg:newend]),axis=1)
-    S = np.std(np.abs(Wx[:,newbeg:newend]),axis=1)
-    
-    return (M_new, S)
+    #return (M, S, P, newbeg, newend)
+    return (M, S, P)
 
 
 def noise_thresholding(Wx, noise_threshold, P):

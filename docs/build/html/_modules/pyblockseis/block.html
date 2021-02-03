@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyblockseis.block &#8212; pyblockseis 0.1.dev documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pyblockseis</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://mybitbucket.llnl.gov/users/aguiarmoya1/repos/denoiser">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#acknowledgements">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/api.html#core-modules">Core Modules</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pyblockseis.block</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># SPDX-License-Identifier: (LGPL-3.0)</span>
+<span class="c1"># LLNL-CODE-XXXXX</span>
+<span class="c1"># authors:</span>
+<span class="c1">#        Ana Aguiar Moya (aguiarmoya1@llnl.gov)</span>
+<span class="c1">#        Andrea Chiang (andrea4@llnl.gov)</span>
+
+<span class="c1">#import warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">from</span> <span class="nn">.wavelet</span> <span class="kn">import</span> <span class="n">cwt</span><span class="p">,</span> <span class="n">inverse_cwt</span><span class="p">,</span> <span class="n">blockbandpass</span>
+<span class="kn">from</span> <span class="nn">.threshold</span> <span class="kn">import</span> <span class="n">noise_model</span><span class="p">,</span> <span class="n">noise_thresholding</span><span class="p">,</span> <span class="n">signal_thresholding</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<div class="viewcode-block" id="Parameter"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Parameter.html#pyblockseis.block.Parameter">[docs]</a><span class="k">class</span> <span class="nc">Parameter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A container for parameters required to set up and run the denoiser.</span>
+<span class="sd">    </span>
+<span class="sd">    The Parameter class determines the appropriate processes to be applied</span>
+<span class="sd">    to the seismograms.</span>
+<span class="sd">    </span>
+<span class="sd">    :param wave_type: wavelet filter type, options are ``&quot;morlet&quot;``,``&quot;shannon&quot;``,</span>
+<span class="sd">        ``&quot;mhat&quot;``,``&quot;hhat&quot;``. Default is ``&quot;morlet&quot;``.</span>
+<span class="sd">    :type wave_type: str</span>
+<span class="sd">    :param nvoices: number of voices refers to the sampling of CWT in scale,</span>
+<span class="sd">        higher number of voices give finer resolution. Default is ``16``.</span>
+<span class="sd">    :type nvoices: int</span>
+<span class="sd">    :param bandpass_blocking: Default value ``True`` will apply a band rejection filter where</span>
+<span class="sd">        wavelet coefficients are modified over a scale bandpass.</span>
+<span class="sd">    :type bandpass_blocking: bool</span>
+<span class="sd">    :param scale_min: minimum time scale for bandpass blocking. Default is ``0``.</span>
+<span class="sd">    :type scale_min: float</span>
+<span class="sd">    :param scale_max: maximum time scale for bandpass blocking. Default is ``200``.</span>
+<span class="sd">    :type scale_max: float</span>
+<span class="sd">    :param block_threshhold: percent amplitude adjustment to the wavelet coefficients within</span>
+<span class="sd">        ``scale_min`` and ``scale_max``. For example a threshold of 5% means the wavelet cofficients</span>
+<span class="sd">        in the band will be multipled by 0.05. Default is ``0``.</span>
+<span class="sd">    :type block_threshold: float</span>
+<span class="sd">    :param estimate_noise: flag to compute the noise model, default is ``True``.</span>
+<span class="sd">    :type estimate_noise: bool</span>
+<span class="sd">    :param noise_starttime: noise start time, default is ``0``.</span>
+<span class="sd">    :type noise_starttime: float</span>
+<span class="sd">    :param noise_endtime: noise end time, default is ``60``.</span>
+<span class="sd">    :type noise_endtime: float</span>
+<span class="sd">    :param noise_threshold: type of noise thresholding to be applied, the options are</span>
+<span class="sd">        ``&quot;hard&quot;`` for hard thresholding and ``&quot;soft&quot;`` for soft thresholding. Default is ``None``.</span>
+<span class="sd">    :type noise_threshold: str</span>
+<span class="sd">    :param signal_threshold: type of signal thresholding to be appied, the options are</span>
+<span class="sd">        ``&quot;hard&quot;`` for hard thresholding, and ``&quot;soft&quot;`` for soft thresholding. Default is ``None``.</span>
+<span class="sd">    :type signal_threshold: str</span>
+<span class="sd">    :param nsigma_method: method to determine the number of standard deviations for block thresholding.</span>
+<span class="sd">        ``&quot;donoho&quot;`` for Donoho&#39;s Threshold criterion and ``&quot;ECDF&quot;`` for empirical cumulative probability</span>
+<span class="sd">        distribution method. You can also specify the number of standard deviations by entering a number.</span>
+<span class="sd">        None ECDF method assumes Gaussian statistic. The default method ``&quot;ECDF&quot;`` is recommended.</span>
+<span class="sd">    :type nsigma_method: str, int, float</span>
+<span class="sd">    :param snr_detection: Flag to apply the SNR detection method, default is ``False``. If ``True`` it</span>
+<span class="sd">        will be applied before hard thresholding.</span>
+<span class="sd">    :type snr_detection: bool</span>
+<span class="sd">    :param snr_lowerbound: Noise level percent lower bound. Default is ``1.0``.</span>
+<span class="sd">    :type snr_lowerbound: float</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Default values</span>
+    <span class="n">_defaults</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">wave_type</span> <span class="o">=</span> <span class="s2">&quot;morlet&quot;</span><span class="p">,</span>
+        <span class="n">nvoices</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="n">bandpass_blocking</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">scale_min</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">scale_max</span> <span class="o">=</span> <span class="mf">200.0</span><span class="p">,</span>
+        <span class="n">block_threshold</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">estimate_noise</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># params after require estimate_noise = True</span>
+        <span class="n">noise_starttime</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">noise_endtime</span> <span class="o">=</span> <span class="mf">60.0</span><span class="p">,</span>
+        <span class="n">noise_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signal_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nsigma_method</span> <span class="o">=</span> <span class="s2">&quot;ECDF&quot;</span><span class="p">,</span> <span class="c1"># method to compute nsigma</span>
+        <span class="n">snr_detection</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">snr_lowerbound</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># types</span>
+    <span class="n">_types</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">wave_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">nvoices</span> <span class="o">=</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">bandpass_blocking</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">scale_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">scale_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">block_threshold</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">estimate_noise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">noise_starttime</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">noise_endtime</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">noise_threshold</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)),</span>
+        <span class="n">signal_threshold</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)),</span>
+        <span class="n">nsigma_method</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>
+        <span class="n">snr_detection</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">snr_lowerbound</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Set to default values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_defaults</span><span class="p">)</span>
+        <span class="c1"># Overwrite default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Parameter.keys"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Parameter.keys.html#pyblockseis.block.Parameter.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Parameter.update"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Parameter.update.html#pyblockseis.block.Parameter.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adict</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">adict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="c1"># type check</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_types</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_types</span><span class="p">[</span><span class="n">key</span><span class="p">]):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_types</span><span class="p">[</span><span class="n">key</span><span class="p">](</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is not supported.&quot;</span><span class="o">%</span><span class="n">key</span><span class="p">)</span>
+                
+        <span class="c1"># check methods</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="s2">&quot;wave_type&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;morlet&quot;</span><span class="p">,</span><span class="s2">&quot;shannon&quot;</span><span class="p">,</span><span class="s2">&quot;mhat&quot;</span><span class="p">,</span><span class="s2">&quot;hhat&quot;</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; wavelet type is not supported.&quot;</span><span class="o">%</span><span class="n">value</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;noise_threshold&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;hard&quot;</span><span class="p">,</span><span class="s2">&quot;soft&quot;</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; thresholding is not supported.&quot;</span><span class="o">%</span><span class="n">value</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;signal_threshold&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;hard&quot;</span><span class="p">,</span><span class="s2">&quot;soft&quot;</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; thresholding is not supported.&quot;</span><span class="o">%</span><span class="n">value</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;nsigma_method&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;donoho&quot;</span><span class="p">,</span><span class="s2">&quot;ECDF&quot;</span><span class="p">):</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; noise reduction method is not supported.&quot;</span><span class="o">%</span><span class="n">value</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="c1">#if isinstance(value, dict):</span>
+        <span class="c1">#    super().__setitem__(key, Struct(value))</span>
+        <span class="c1">#else:</span>
+        <span class="c1">#    super().__setitem__(key, value)</span>
+    
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="fm">__setattr__</span> <span class="o">=</span> <span class="fm">__setitem__</span>
+    <span class="fm">__delattr__</span> <span class="o">=</span> <span class="fm">__delitem__</span>
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return better readable string representation of Parameter object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">min_key_length</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="c1"># determine longest key name for alignment</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]),</span> <span class="n">min_key_length</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># no keys</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="s2">&quot;{0:&gt;</span><span class="si">%d</span><span class="s2">}: </span><span class="si">{1}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">i</span>
+        <span class="n">pretty_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)))</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span>
+        <span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">pretty_string</span>
+    
+    <span class="k">def</span> <span class="nf">_repr_pretty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">cycle</span><span class="p">):</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Wavelet"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Wavelet.html#pyblockseis.block.Wavelet">[docs]</a><span class="k">class</span> <span class="nc">Wavelet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Object containing outputs from CWT operations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">default_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;band_rejected&quot;</span><span class="p">,</span> <span class="s2">&quot;noise_removed&quot;</span><span class="p">,</span> <span class="s2">&quot;signal_removed&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cwt</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default_keys</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icwt</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default_keys</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1">#self.window_start = None</span>
+        <span class="c1">#self.window_end = None</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="fm">__setattr__</span> <span class="o">=</span> <span class="fm">__setitem__</span>
+    <span class="fm">__delattr__</span> <span class="o">=</span> <span class="fm">__delitem__</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return better readable string representation of Parameter object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">min_key_length</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="c1"># determine longest key name for alignment</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]),</span> <span class="n">min_key_length</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># no keys</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="s2">&quot;{0:&gt;</span><span class="si">%d</span><span class="s2">}: </span><span class="si">{1}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+        <span class="n">pretty_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)))</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span>
+        <span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">pretty_string</span>
+
+    <span class="k">def</span> <span class="nf">_repr_pretty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">cycle</span><span class="p">):</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Block"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.html#pyblockseis.block.Block">[docs]</a><span class="k">class</span> <span class="nc">Block</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block Choice Seismic Analysis in Python</span>
+<span class="sd">    </span>
+<span class="sd">    :param choice: parameters required to run the denoiser.</span>
+<span class="sd">    :type choice: :py:class:`~pyblockseis.block.Parameter`</span>
+<span class="sd">    :param data: obspy stream.</span>
+<span class="sd">    :type data: :class:`~obspy.core.stream.Stream` or </span>
+<span class="sd">    :param dt: sampling period required if data is :class:`~numpy.ndarray`.</span>
+<span class="sd">    :type dt: float</span>
+<span class="sd">    :param num_of_traces: number of time series.</span>
+<span class="sd">    :type num_of_traces: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">choice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">if</span> <span class="n">choice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">choice</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">()</span>
+        <span class="n">choice</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">choice</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">choice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># last CWT operation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_params</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Block.run"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.run.html#pyblockseis.block.Block.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">changed_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_params</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">changed_keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_run</span><span class="p">(</span><span class="n">changed_keys</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parameters did not change, nothing is done.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_all</span><span class="p">()</span>
+
+        <span class="c1"># Reconstruction of final cwt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span><span class="p">)</span>
+
+        <span class="c1"># Keeping track of all CWT operations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Block.run_all"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.run_all.html#pyblockseis.block.Block.run_all">[docs]</a>    <span class="k">def</span> <span class="nf">run_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># continuous wavelet transform of input data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_cwt</span><span class="p">()</span>
+
+        <span class="c1"># Apply bandpass blocking</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">bandpass_blocking</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_bandpass_blocking</span><span class="p">()</span>
+
+        <span class="c1"># Estimate noise model</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">estimate_noise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">call_noise_model</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">noise_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_thresholding</span><span class="p">(</span><span class="s2">&quot;noise_removed&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">signal_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_thresholding</span><span class="p">(</span><span class="s2">&quot;signal_removed&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Block.call_cwt"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.call_cwt.html#pyblockseis.block.Block.call_cwt">[docs]</a>    <span class="k">def</span> <span class="nf">call_cwt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span> <span class="o">=</span> <span class="n">Wavelet</span><span class="p">()</span>
+            <span class="n">wx</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">cwt</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">wave_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">nvoices</span><span class="p">,</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wx</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span> <span class="o">=</span> <span class="s2">&quot;input&quot;</span></div>
+
+<div class="viewcode-block" id="Block.apply_bandpass_blocking"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.apply_bandpass_blocking.html#pyblockseis.block.Block.apply_bandpass_blocking">[docs]</a>    <span class="k">def</span> <span class="nf">apply_bandpass_blocking</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Apply on input data</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="s2">&quot;band_rejected&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">blockbandpass</span><span class="p">(</span>
+                <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">],</span> <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">scale_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">scale_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">block_threshold</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span> <span class="o">=</span> <span class="s2">&quot;band_rejected&quot;</span></div>
+
+<div class="viewcode-block" id="Block.call_noise_model"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.call_noise_model.html#pyblockseis.block.Block.call_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">call_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">wx</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span><span class="p">]</span>
+            <span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">noise_model</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span> <span class="n">trace</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">noise_starttime</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">noise_endtime</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">nsigma_method</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">snr_lowerbound</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">snr_detection</span><span class="p">)</span>
+
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">S</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">P</span> <span class="o">=</span> <span class="n">P</span></div>
+
+<span class="c1">#    def call_snr_detection(self):</span>
+<span class="c1">#        # Call this function if noise model exists</span>
+<span class="c1">#        for trace in self.data:</span>
+<span class="c1">#            wx = trace.wavelet.cwt[self.wavelet_function]</span>
+<span class="c1">#            M, S = SNR_detect(wx, trace.wavelet.M,</span>
+<span class="c1">#                              trace.wavelet.window_start, trace.wavelet.window_end, self.params.snr_lowerbound)</span>
+<span class="c1">#            trace.wavelet.M = M</span>
+<span class="c1">#            trace.wavelet.S = S</span>
+
+<div class="viewcode-block" id="Block.apply_thresholding"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.apply_thresholding.html#pyblockseis.block.Block.apply_thresholding">[docs]</a>    <span class="k">def</span> <span class="nf">apply_thresholding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">method</span><span class="p">):</span>
+        <span class="n">_get_function</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;noise_removed&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">noise_thresholding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">noise_threshold</span><span class="p">),</span>
+                         <span class="s2">&quot;signal_removed&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">signal_thresholding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">signal_threshold</span><span class="p">)</span>
+                        <span class="p">}</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">_get_function</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="c1"># noise/signal thresholding</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span><span class="p">],</span> <span class="n">func</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">P</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">method</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Block.reconstruct"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.reconstruct.html#pyblockseis.block.Block.reconstruct">[docs]</a>    <span class="k">def</span> <span class="nf">reconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelet_function</span><span class="p">,</span> <span class="n">trace_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstruct time series</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">trace_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+                <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">icwt</span><span class="p">[</span><span class="n">wavelet_function</span><span class="p">]</span> <span class="o">=</span> <span class="n">inverse_cwt</span><span class="p">(</span>
+                    <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="n">wavelet_function</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">wave_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">nvoices</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trace_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">trace_id</span><span class="p">]</span>
+            <span class="n">icwt</span> <span class="o">=</span> <span class="n">inverse_cwt</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="n">wavelet_function</span><span class="p">],</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">wave_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">nvoices</span><span class="p">)</span>
+            <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">icwt</span><span class="p">[</span><span class="n">wavelet_function</span><span class="p">]</span> <span class="o">=</span> <span class="n">icwt</span>
+            <span class="k">return</span> <span class="n">icwt</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;trace_id must be an integer or NoneType&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Block.update_run"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.update_run.html#pyblockseis.block.Block.update_run">[docs]</a>    <span class="k">def</span> <span class="nf">update_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changed_keys</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">changed_keys</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;wave_type&quot;</span><span class="p">,</span> <span class="s2">&quot;nvoices&quot;</span><span class="p">]):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Wavelet has been changed, re-run all data processing.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_all</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">refresh_waves</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># cwt/icwt to refreshed</span>
+            <span class="n">refresh_noise</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># noise model parameters to refresh</span>
+            <span class="n">apply_blocking</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">apply_noise_model</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1">#apply_snr_detection = False</span>
+            <span class="n">apply_noise_threshold</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">apply_signal_threshold</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">bandpass_blocking</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;bandpass_blocking&quot;</span> <span class="ow">in</span> <span class="n">changed_keys</span><span class="p">:</span>
+                    <span class="c1"># Turned on bandpass blocking</span>
+                    <span class="n">apply_blocking</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">changed_keys</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;scale_min&quot;</span><span class="p">,</span> <span class="s2">&quot;scale_max&quot;</span><span class="p">,</span> <span class="s2">&quot;block_threshold&quot;</span><span class="p">]):</span>
+                    <span class="c1"># Changed any filter parameters</span>
+                    <span class="n">apply_blocking</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wavelet_function</span> <span class="o">=</span> <span class="s2">&quot;input&quot;</span>
+                <span class="n">refresh_waves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;band_rejected&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">estimate_noise</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;estimate_noise&quot;</span> <span class="ow">in</span> <span class="n">changed_keys</span><span class="p">:</span>
+                    <span class="c1"># Turned on noise</span>
+                    <span class="n">apply_noise_model</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">changed_keys</span>
+                         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;noise_starttime&quot;</span><span class="p">,</span> <span class="s2">&quot;noise_endtime&quot;</span><span class="p">,</span> <span class="s2">&quot;nsigma_method&quot;</span><span class="p">,</span>
+                                     <span class="s2">&quot;snr_lowerbound&quot;</span><span class="p">,</span><span class="s2">&quot;snr_detection&quot;</span><span class="p">]):</span>
+                    <span class="c1"># changed any model parameters</span>
+                    <span class="n">apply_noise_model</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="c1">#else:</span>
+                <span class="c1">#    # Check if SNR detection is turned on when noise model is the same</span>
+                <span class="c1">#    if self.params[&quot;snr_detection&quot;]:</span>
+                <span class="c1">#        if &quot;snr_detection&quot; in changed_keys:</span>
+                <span class="c1">#            # turned on detection</span>
+                <span class="c1">#            apply_snr_detection = True</span>
+                <span class="c1">#        elif &quot;snr_lowerbound&quot; in changed_keys: # on-on</span>
+                <span class="c1">#            # changed detection bounds</span>
+                <span class="c1">#            apply_snr_detection = True</span>
+                <span class="c1"># Check and update noise thresholding</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">noise_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">refresh_waves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;noise_removed&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;noise_threshold&quot;</span> <span class="ow">in</span> <span class="n">changed_keys</span><span class="p">:</span>
+                        <span class="n">apply_noise_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="c1"># re-run if any changes to prior operation</span>
+                    <span class="k">elif</span> <span class="n">apply_blocking</span><span class="p">:</span>
+                        <span class="n">apply_noise_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">elif</span> <span class="n">apply_noise_model</span><span class="p">:</span>
+                        <span class="n">apply_noise_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="c1"># Update signal thresholding</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">signal_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">refresh_waves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;signal_removed&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;signal_threshold&quot;</span> <span class="ow">in</span> <span class="n">changed_keys</span><span class="p">:</span>
+                        <span class="n">apply_signal_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="c1"># re-run if any changes to prior operation</span>
+                    <span class="k">elif</span> <span class="n">apply_blocking</span><span class="p">:</span>
+                        <span class="n">apply_signal_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">elif</span> <span class="n">apply_noise_model</span><span class="p">:</span>
+                        <span class="n">apply_signal_threshold</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">refresh_noise</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">]</span>
+                <span class="n">refresh_waves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;noise_removed&quot;</span><span class="p">)</span>
+                <span class="n">refresh_waves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;signal_removed&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Apply changes</span>
+            <span class="k">if</span> <span class="n">apply_blocking</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Apply new bandpass blocking.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_bandpass_blocking</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">apply_noise_model</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Apply new noise model.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">call_noise_model</span><span class="p">()</span>
+            <span class="c1">#if apply_snr_detection:</span>
+            <span class="c1">#   print(&quot;Apply new snr detection.&quot;)</span>
+            <span class="c1">#    self.call_snr_detection()</span>
+            <span class="k">if</span> <span class="n">apply_noise_threshold</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Apply new noise thresholding.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_thresholding</span><span class="p">(</span><span class="s2">&quot;noise_removed&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">apply_signal_threshold</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Apply new signal thresholding.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">apply_thresholding</span><span class="p">(</span><span class="s2">&quot;signal_removed&quot;</span><span class="p">)</span>
+            <span class="c1"># Refresh</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">refresh_waves</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh_cwt_icwt</span><span class="p">(</span><span class="n">refresh_waves</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">refresh_noise</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh_noise_model</span><span class="p">(</span><span class="n">refresh_noise</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Block.refresh_cwt_icwt"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.refresh_cwt_icwt.html#pyblockseis.block.Block.refresh_cwt_icwt">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_cwt_icwt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wavelet_functions</span><span class="p">):</span>
+        <span class="c1"># refresh cwt and icwt</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">wave</span> <span class="ow">in</span> <span class="n">wavelet_functions</span><span class="p">:</span>
+                <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="n">wave</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">icwt</span><span class="p">[</span><span class="n">wave</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Block.refresh_noise_model"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.refresh_noise_model.html#pyblockseis.block.Block.refresh_noise_model">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_noise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">noise_param</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">noise_param</span><span class="p">:</span>
+                <span class="n">trace</span><span class="o">.</span><span class="n">wavelet</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Block.plot"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.block.Block.plot.html#pyblockseis.block.Block.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelet_function</span><span class="p">,</span> <span class="n">trace_id</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot time-frequency representation (TFR) of a single time series.</span>
+
+<span class="sd">        :param trace_id: time series to plot.</span>
+<span class="sd">        :type trace_id: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cwt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">trace_id</span><span class="p">]</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">cwt</span><span class="p">[</span><span class="n">wavelet_function</span><span class="p">]</span>
+        <span class="n">y_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">trace_id</span><span class="p">]</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cwt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;No CWT on </span><span class="si">%s</span><span class="s2"> time series.&quot;</span><span class="o">%</span><span class="n">wavelet_function</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">trace_id</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">wavelet_function</span> <span class="o">==</span> <span class="s2">&quot;input&quot;</span><span class="p">:</span>
+            <span class="n">icwt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">trace_id</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">trace_id</span><span class="p">]</span><span class="o">.</span><span class="n">wavelet</span><span class="o">.</span><span class="n">icwt</span><span class="p">[</span><span class="n">wavelet_function</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">arr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">icwt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">wavelet_function</span><span class="p">,</span> <span class="n">trace_id</span><span class="o">=</span><span class="n">trace_id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">icwt</span> <span class="o">=</span> <span class="n">arr</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mf">6.5</span><span class="p">))</span>
+        <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">extent</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_axis</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">y_axis</span><span class="p">)]</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cwt</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="c1"># need to fix x-axis to time</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">times</span><span class="p">)])</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y_axis</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y_axis</span><span class="p">)])</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Scale [log10(s)]&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Time Frequency Representation (TFR) of </span><span class="si">%s</span><span class="s2"> time series&quot;</span><span class="o">%</span><span class="n">wavelet_function</span><span class="p">)</span>
+
+        <span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">icwt</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">times</span><span class="p">)])</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return better readable string representation of Block object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pretty_string</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;| Denoising parameters for </span><span class="si">%d</span><span class="s2"> time series |&quot;</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()])</span>
+        <span class="s2">&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="n">pretty_string</span>
+    
+    <span class="k">def</span> <span class="nf">_repr_pretty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">cycle</span><span class="p">):</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+
+    <span class="c1">#def __repr__(self):</span>
+    <span class="c1">#    return repr(self.__dict__)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

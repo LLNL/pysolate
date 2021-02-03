@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyblockseis.threshold &#8212; pyblockseis 0.1.dev documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pyblockseis</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://mybitbucket.llnl.gov/users/aguiarmoya1/repos/denoiser">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#acknowledgements">Acknowledgements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/api.html#core-modules">Core Modules</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pyblockseis.threshold</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># SPDX-License-Identifier: (LGPL-3.0)</span>
+<span class="c1"># LLNL-CODE-XXXXX</span>
+<span class="c1"># authors:</span>
+<span class="c1">#        Ana Aguiar Moya (aguiarmoya1@llnl.gov)</span>
+<span class="c1">#        Andrea Chiang (andrea4@llnl.gov)</span>
+<span class="c1">#</span>
+<span class="c1"># Non-linear thresholding operations using CWT, functions adapted from</span>
+<span class="c1"># the BCseis ver1.1 MATLAB package by Charles A. Langston and S. Mostafa Mousavi.</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+
+
+<div class="viewcode-block" id="ecdf"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.threshold.ecdf.html#pyblockseis.threshold.ecdf">[docs]</a><span class="k">def</span> <span class="nf">ecdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Empirical cumulative probability distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SNR_detect"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.threshold.SNR_detect.html#pyblockseis.threshold.SNR_detect">[docs]</a><span class="k">def</span> <span class="nf">SNR_detect</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">newbeg</span><span class="p">,</span> <span class="n">newend</span><span class="p">,</span> <span class="n">snr_lowerbound</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply SNR detection to CWT.</span>
+
+<span class="sd">    :param Wx: wavelet transform of shape (len(scales), len(time_series))</span>
+<span class="sd">    :type Wx: :class:`numpy.ndarray`</span>
+<span class="sd">    :param M: mean of noise model.</span>
+<span class="sd">    :type M: :class:`numpy.ndarray`</span>
+<span class="sd">    :param snr_lowerbound: noise level lower bound in percent.</span>
+<span class="sd">    :type snr_lowerbound: float</span>
+<span class="sd">    :return M_new: mean of noise model.</span>
+<span class="sd">    :rtype M_new: standard deviation of noise model.</span>
+<span class="sd">    :return S: :class:`numpy.ndarray`</span>
+<span class="sd">    :rtype S: :class:`numpy.ndarray`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nlbound</span> <span class="o">=</span> <span class="n">snr_lowerbound</span> <span class="o">*</span> <span class="mf">0.01</span>
+    <span class="n">M_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">M</span><span class="p">))</span>
+    <span class="n">Wx</span> <span class="o">=</span> <span class="p">(</span><span class="n">Wx</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="n">M</span> <span class="o">+</span> <span class="n">nlbound</span> <span class="o">*</span> <span class="n">M_max</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c1"># Recalculate the noise model for possible further use</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">[:,</span> <span class="n">newbeg</span><span class="p">:</span><span class="n">newend</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># point to re-calculated mean</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">[:,</span> <span class="n">newbeg</span><span class="p">:</span><span class="n">newend</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="noise_model"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.threshold.noise_model.html#pyblockseis.threshold.noise_model">[docs]</a><span class="k">def</span> <span class="nf">noise_model</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">noise_starttime</span><span class="p">,</span> <span class="n">noise_endtime</span><span class="p">,</span> <span class="n">nsigma_method</span><span class="p">,</span> <span class="n">nlbound</span><span class="p">,</span> <span class="n">detection</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates noise model and threshold function.</span>
+<span class="sd">    </span>
+<span class="sd">    :param Wx: wavelet transform of shape (len(scales), len(time_series))</span>
+<span class="sd">    :type Wx: :class:`numpy.ndarray`</span>
+<span class="sd">    :param delta: sampling interval.</span>
+<span class="sd">    :type delta: float</span>
+<span class="sd">    :param noise_starttime: noise start time.</span>
+<span class="sd">    :type noise_starttime: float</span>
+<span class="sd">    :param noise_endtime: noise end time.</span>
+<span class="sd">    :type noise_endtime: float</span>
+<span class="sd">    :param nsigma_method: block thresholding method.</span>
+<span class="sd">    :type nsigma_method: str</span>
+<span class="sd">    :param nlbound: noise level lower bound in percent.</span>
+<span class="sd">    :type nlbound: float</span>
+<span class="sd">    :param nsigma_gauss: umber of std for block threshold using Gaussian statistic.</span>
+<span class="sd">    :type nsigma_gauss: float</span>
+<span class="sd">    :param detection: If ``True`` it will be applied before hard thresholding. default is ``False``.</span>
+<span class="sd">    :type detection: bool</span>
+<span class="sd">    :return M: mean of noise model.</span>
+<span class="sd">    :rtype M: :class:`numpy.ndarray`</span>
+<span class="sd">    :return S: standard deviation of noise model.</span>
+<span class="sd">    :rtype S: :class:`numpy.ndarray`</span>
+<span class="sd">    :return P: threshold of the noise signal.</span>
+<span class="sd">    :rtype P: :class:`numpy.ndarray`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the time window</span>
+    <span class="n">newbeg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">noise_starttime</span><span class="o">/</span><span class="n">delta</span><span class="p">))</span> <span class="c1"># python indexing starts with zero</span>
+    <span class="n">newend</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">noise_endtime</span><span class="o">/</span><span class="n">delta</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># calculate the mean and standard deviations at each scale in the time-scale window</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">[:,</span> <span class="n">newbeg</span><span class="p">:</span><span class="n">newend</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">[:,</span> <span class="n">newbeg</span><span class="p">:</span><span class="n">newend</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nsigma_method</span> <span class="o">==</span> <span class="s2">&quot;ECDF&quot;</span><span class="p">:</span>
+        <span class="c1"># Estimate empirical CDF for each scale,</span>
+        <span class="c1"># calculate noise threshold at the desired confidence level.</span>
+        <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="n">Wx</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">nlbound</span><span class="o">*</span><span class="mf">0.01</span>
+        <span class="n">n_noise</span> <span class="o">=</span> <span class="n">newend</span><span class="o">-</span><span class="n">newbeg</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nrow</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrow</span><span class="p">):</span>
+            <span class="n">W</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n_noise</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">newbeg</span><span class="p">:</span><span class="n">newend</span><span class="p">])</span>
+            <span class="n">f</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+            <span class="n">fnew</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+            <span class="n">P</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">fnew</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nsigma_method</span> <span class="o">==</span> <span class="s2">&quot;donoho&quot;</span><span class="p">:</span>
+            <span class="c1"># compute Donoho&#39;s Threshold Criterion</span>
+            <span class="n">nsigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">newend</span><span class="o">-</span><span class="n">newbeg</span> <span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nsigma</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nsigma_method</span><span class="p">)</span>
+        <span class="c1"># assuming Gaussian statistics</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">M</span> <span class="o">+</span> <span class="n">nsigma</span> <span class="o">*</span> <span class="n">S</span>
+            
+    <span class="c1"># SNR detection</span>
+    <span class="k">if</span> <span class="n">detection</span><span class="p">:</span>
+        <span class="n">M</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">SNR_detect</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">newbeg</span><span class="p">,</span> <span class="n">newend</span><span class="p">,</span> <span class="n">nlbound</span><span class="p">)</span>
+
+    <span class="c1">#return (M, S, P, newbeg, newend)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="noise_thresholding"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.threshold.noise_thresholding.html#pyblockseis.threshold.noise_thresholding">[docs]</a><span class="k">def</span> <span class="nf">noise_thresholding</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">noise_threshold</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply hard/soft thresholding to the noise (removing noise).</span>
+
+<span class="sd">    :param Wx: wavelet transform of shape (len(scales), len(time_series))</span>
+<span class="sd">    :type Wx: :class:`numpy.ndarray`</span>
+<span class="sd">    :param noise_threshold: &quot;soft&quot; or &quot;hard&quot; noise thresholding.</span>
+<span class="sd">    :type noise_threshold: str</span>
+<span class="sd">    :param P: threshold of the noise signal.</span>
+<span class="sd">    :type P: :class:`numpy.ndarray`</span>
+<span class="sd">    :return Wx_new: (na,n) size matrix, rows=scales and cols=times</span>
+<span class="sd">    :rtype Wx_new: :class:`numpy.ndarray`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">W_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">noise_threshold</span> <span class="o">==</span> <span class="s2">&quot;hard&quot;</span><span class="p">:</span>        
+        <span class="n">Wx_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">Wx</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">P</span><span class="o">&lt;</span><span class="n">W_test</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">elif</span> <span class="n">noise_threshold</span> <span class="o">==</span> <span class="s2">&quot;soft&quot;</span><span class="p">:</span>
+        <span class="n">Wx_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">Wx</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">W_test</span><span class="o">.</span><span class="n">T</span><span class="o">-</span><span class="n">P</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">P</span><span class="o">&lt;</span><span class="n">W_test</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        
+    <span class="k">return</span> <span class="n">Wx_new</span></div>
+
+
+<div class="viewcode-block" id="signal_thresholding"><a class="viewcode-back" href="../../reference/autogen/pyblockseis.threshold.signal_thresholding.html#pyblockseis.threshold.signal_thresholding">[docs]</a><span class="k">def</span> <span class="nf">signal_thresholding</span><span class="p">(</span><span class="n">Wx</span><span class="p">,</span> <span class="n">signal_threshold</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply hard/soft thresholding to the signal (removing signal).</span>
+
+<span class="sd">    :param Wx: wavelet transform of shape (len(scales), len(time_series))</span>
+<span class="sd">    :type Wx: :class:`numpy.ndarray`</span>
+<span class="sd">    :param signal_threshold: &quot;soft&quot; or &quot;hard&quot; noise thresholding.</span>
+<span class="sd">    :type signal_threshold: str</span>
+<span class="sd">    :param P: threshold of the noise signal.</span>
+<span class="sd">    :type P: :class:`numpy.ndarray`</span>
+<span class="sd">    :return Wx_new: (na,n) size matrix, rows=scales and cols=times</span>
+<span class="sd">    :rtype Wx_new: :class:`numpy.ndarray`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">W_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Wx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">signal_threshold</span> <span class="o">==</span> <span class="s2">&quot;hard&quot;</span><span class="p">:</span>
+        <span class="n">Wx_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">Wx</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">P</span><span class="o">&gt;</span><span class="n">W_test</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">elif</span> <span class="n">signal_threshold</span> <span class="o">==</span> <span class="s2">&quot;soft&quot;</span><span class="p">:</span>
+        <span class="n">Wx_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">Wx</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">*</span> <span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">P</span> <span class="o">&lt;=</span> <span class="n">W_test</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="p">(</span><span class="n">Wx</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="p">(</span><span class="n">P</span> <span class="o">&gt;</span> <span class="n">W_test</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">return</span> <span class="n">Wx_new</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
