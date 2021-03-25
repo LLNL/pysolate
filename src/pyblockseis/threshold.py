@@ -131,7 +131,7 @@ def noise_thresholding(Wx, noise_threshold, P):
     if noise_threshold == "hard":        
         Wx_new = (Wx.T * (P<W_test.T)).T
     elif noise_threshold == "soft":
-        Wx_new = (Wx/W_test) * (W_test.T-P) * (P<W_test.T)).T
+        Wx_new = (Wx/W_test) * ((W_test.T-P) * (P<W_test.T)).T
         
     return Wx_new
 
