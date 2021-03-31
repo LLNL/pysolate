@@ -68,7 +68,7 @@ def wfiltfn(xi, wave_type):
     elif wave_type == "shannon":
         pass
     elif wave_type == "hhat":
-        pass
+        psihfn = 2/np.sqrt(5) * np.pi**(-1/4) * xi * (1+xi) * np.exp(-1/2*xi**2)
         
     return np.array(psihfn)
 
