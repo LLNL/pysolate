@@ -33,8 +33,8 @@ import numpy as np
 
 # +
 # Read example data from BCseis
-#sacfile = "/Users/chiang4/Work/NNSA/LYNM/denoiser/bc_v1.1/data/5014.YW.0.sp0011.DPZ"
-sacfile = "/Users/chiang4/Work/NNSA/LYNM/denoiser/bc_v1.1/data/*DPZ" # multiple traces
+sacfile = "testdata/5014.YW.0.sp0011.DPZ"
+#sacfile = "testdata/*DPZ" # multiple traces
 st = read(sacfile)
 
 start = timeit.timeit()
@@ -69,7 +69,7 @@ waves = block.get_noise_model().select(network="YW", station="5014")
 
 # Plot figure
 plt.plot(waves[0].noise_model.P,"k",label="P-python")
-matP = np.loadtxt("tmp/P.txt")
+matP = np.loadtxt("testdata/_matlab/P.txt")
 plt.plot(matP,"r--",label="P-matlab")
 plt.plot(waves[0].noise_model.M,"g",label="mean-python")
 plt.legend()
@@ -83,7 +83,7 @@ tag = "noise_removed"
 
 # Select data
 trace_py = block.waveforms.data[tag].select(network="YW", station="5014")[0]
-trace_m = read("tmp/icwtblock_noisehard.sac",format="SAC")[0]
+trace_m = read("testdata/_matlab/icwtblock_noisehard.sac",format="SAC")[0]
 
 # Plot figure
 plt.figure(figsize=(20,5))
@@ -99,7 +99,7 @@ tag = "signal_removed"
 
 # Select data
 trace_py = block.waveforms.data[tag].select(network="YW", station="5014")[0]
-trace_m = read("tmp/icwtblock_signalhard.sac",format="SAC")[0]
+trace_m = read("testdata/_matlab/icwtblock_signalhard.sac",format="SAC")[0]
 
 # Plot figure
 plt.figure(figsize=(20,5))
@@ -122,7 +122,7 @@ tag = "noise_removed"
 
 # Select station
 trace_py = block.waveforms.data[tag].select(network="YW", station="5014")[0]
-trace_m = read("tmp/icwtblock_noisesoft.sac",format="SAC")[0]
+trace_m = read("testdata/_matlab/icwtblock_noisesoft.sac",format="SAC")[0]
 
 plt.figure(figsize=(20,5))
 plt.title("Soft thresholding to remove noise")
@@ -137,7 +137,7 @@ tag = "signal_removed"
 
 # Select station
 trace_py = block.waveforms.data[tag].select(network="YW", station="5014")[0]
-trace_m = read("tmp/icwtblock_signalsoft.sac",format="SAC")[0]
+trace_m = read("testdata/_matlab/icwtblock_signalsoft.sac",format="SAC")[0]
 
 # Plot figure
 plt.figure(figsize=(20,5))
@@ -161,8 +161,7 @@ block.plot("signal_removed")
 # #### Test ASDF format
 
 # +
-evid = 578449
-filename = "../../bondar_2015_data/%s/%s.h5"%(evid,evid)
+filename = "testdata/578449.h5"
 
 params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
 
