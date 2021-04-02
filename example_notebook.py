@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.5.2
+#       jupytext_version: 1.11.0
 #   kernelspec:
 #     display_name: obspy
 #     language: python
@@ -71,8 +71,6 @@ block.plot("signal_removed")
 print("Run took %.4f seconds"%(end - start))
 # -
 
-block.data[0].wavelet
-
 import numpy as np
 plt.figure()
 plt.title("Noise model")
@@ -115,7 +113,7 @@ plt.title("Soft thresholding to remove signal")
 trace = read("tmp/icwtblock_signalsoft.sac",format="SAC")[0]
 plt.plot(trace.data,"r-",linewidth=0.5,label="matlab")
 plt.plot(block.data[0].wavelet.icwt["signal_removed"],"k",linewidth=0.5,label="python")
-plt.xlim([10000,30000])
+plt.xlim([10000,20000])
 plt.legend()
 
 # Test update functions
@@ -126,14 +124,29 @@ block.params.snr_detection = True
 block.run()
 block.plot("signal_removed")
 
-# Test refresh functions
-block.params.estimate_noise = False
-block.run()
-block.plot("signal_removed")
+import pyasdf
 
-tr = st[0]
-tr_ref = tr.slice(starttime=tr.stats.starttime+1,endtime=tr.stats.starttime+200)
-tr.data.shape
-tr_ref.data.shape
+evid = 578449
+ds = pyasdf.ASDFDataSet("../../bondar_2015_data/%s/%s.h5"%(evid,evid))
 
-params
+for station in ds.waveforms:
+    print(station._station_name)
+    #for tr in station["raw_observed"]:
+    #    print(tr.stats)
+
+ds.events.__dict__
+
+waveforms = ds.waveforms
+
+# +
+import obspy
+
+st=obspy.core.read("../../bondar_2015_data/578449/waveforms/*")
+# -
+
+sta = [ "%s.%s.%s.%s"%(tr.stats.network, tr.stats.station, tr.stats.location, tr.stats.channel[0:2]) for tr in st ]
+sta = sorted(set(sta))
+sta
+
+wave = Waveforms()
+wave.station_name
