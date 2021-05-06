@@ -11,7 +11,8 @@
 import math
 import numpy as np
 from scipy.integrate import quad
-
+from obspy.core.trace import Stats
+from obspy.core.util import AttribDict
 
 def _psihfn(xi,wave_type):
     return np.conj(wfiltfn(xi, wave_type))*wfiltfn(xi, wave_type)/xi
@@ -221,3 +222,126 @@ def blockbandpass(Wx, scales, scale_min, scale_max, block_threshold):
             a[0,k] = thresh
     
     return Wx*a.T
+
+
+class Wavelet(object):
+    """
+    One dimensional continues wavelet transform of a time series.
+
+    :param coefs: Continuous wavelet transform of a time series,
+        the first axis corresponds to the scales and the second axis
+        corresponds to the length of the time series.
+    :type coefs: :class:`numpy.ndarray`
+    :param scales: Wavelet scales
+    :param kwargs: Noise model parameters.
+    """
+    def __init__(self, coefs=None, scales=None, headers=None, **kwargs):
+        if headers is None:
+            headers = {}
+        self.stats = Stats(headers)
+        self.scales = scales
+        self.coefs = coefs
+        self.noise_model = AttribDict(**kwargs)
+
+    def get_id(self):
+        out = "%(network)s.%(station)s.%(location)s.%(channel)s"
+        return out%(self.stats)
+
+    def __str__(self):
+        """
+        Return better readable string representation of Parameter object.
+        """
+        out = " | %(starttime)s - %(endtime)s | "
+
+        attrs = ', '.join(
+            [key for key in ["scales", "coefs"] if key is not None],
+        )
+        if len(self.noise_model) > 0:
+            attrs = ', '.join([attrs, "noise_model"])
+
+        return self.get_id() + out%(self.stats) + attrs
+
+    def _repr_pretty_(self, p, cycle):
+        p.text(str(self))
+
+
+class WaveletCollection(object):
+    """
+    Collection of wavelet objects.
+    """
+    def __init__(self, wavelets=None):
+        self.wavelets = []
+        if isinstance(wavelets, Wavelet):
+            wavelets = [wavelets]
+        if wavelets:
+            self.wavelets.extend(wavelets)
+
+    def __len__(self):
+        return len(self.wavelets)
+
+    count = __len__
+
+    def __setitem__(self, index, wavelet):
+        """
+        __setitem__ method.
+        """
+        self.wavelets.__setitem__(index, wavelet)
+
+    def __getitem__(self, index):
+        """
+        __getitem__ method.
+
+        :return: Wavelet objects
+        """
+        if isinstance(index, slice):
+            return self.__class__(wavelets=self.wavelets.__getitem__(index))
+        else:
+            return self.wavelets.__getitem__(index)
+
+    def __delitem__(self, index):
+        """
+        Passes on the __delitem__ method to the underlying list of wavelets.
+        """
+        return self.wavelets.__delitem__(index)
+
+    def __getslice__(self, i, j, k=1):
+        """
+        __getslice__ method.
+
+        :return: WaveletCollection object
+        """
+        return self.__class__(wavelets=self.wavelets[max(0, i):max(0, j):k])
+
+    def select(self, network=None, station=None, location=None, channel=None,
+               starttime=None, endtime=None):
+        wavelets = []
+        for _i in self.wavelets:
+            if network is not None:
+                if _i.stats.network != network:
+                    continue
+            if station is not None:
+                if _i.stats.station != station:
+                    continue
+            if location is not None:
+                if _i.stats.location != location:
+                    continue
+            if channel is not None:
+                if _i.stats.channel != channel:
+                    continue
+            if starttime is not None:
+                if _i.stats.starttime != starttime:
+                    continue
+            if endtime is not None:
+                if _i.stats.endtime != endtime:
+                    continue
+            wavelets.append(_i)
+
+        return self.__class__(wavelets=wavelets)
+
+    def __str__(self):
+        pretty_string = "\n".join([_i.__str__() for _i in self])
+
+        return pretty_string
+
+    def _repr_pretty_(self, p, cycle):
+        p.text(str(self))
