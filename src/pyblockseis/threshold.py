@@ -4,9 +4,12 @@
 # authors:
 #        Ana Aguiar Moya (aguiarmoya1@llnl.gov)
 #        Andrea Chiang (andrea4@llnl.gov)
-#
-# Non-linear thresholding operations using CWT, functions adapted from
-# the BCseis ver1.1 MATLAB package by Charles A. Langston and S. Mostafa Mousavi.
+"""
+Non-linear thresholding operations using the continuous wavelet transform
+"""
+# Most functions are adapted from the BCseis ver1.1 MATLAB package
+# by Charles A. Langston and S. Mostafa Mousavi.
+
 
 import numpy as np
 from scipy.interpolate import interp1d
@@ -15,16 +18,26 @@ from scipy.interpolate import interp1d
 def ecdf(x):
     """
     Empirical cumulative probability distribution
+
+    Function returns the empirical cumulative distribution function of
+    the input array.
+
+    :param x: a sample
+    :type x: :class:`numpy.ndarray`
+    :return: a 2-D array where the first and second axes correspond to
+        the empirical cumulative distribution function evaluated
+        at the sorted sample points.
+    :rtype: :class:`numpy.ndarray`
     """
     xs = np.sort(x)
     ys = np.arange(1, len(xs)+1)/float(len(xs))
     
-    return (ys, xs)
+    return np.array([ys,xs])
 
 
 def SNR_detect(Wx, M, newbeg, newend, snr_lowerbound):
     """
-    Apply SNR detection to CWT.
+    Apply SNR detection to CWT
 
     :param Wx: wavelet transform of shape (len(scales), len(time_series))
     :type Wx: :class:`numpy.ndarray`
@@ -32,11 +45,8 @@ def SNR_detect(Wx, M, newbeg, newend, snr_lowerbound):
     :type M: :class:`numpy.ndarray`
     :param snr_lowerbound: noise level lower bound in percent.
     :type snr_lowerbound: float
-    :return M_new: mean of noise model.
-    :rtype M_new: standard deviation of noise model.
-    :return S: :class:`numpy.ndarray`
-    :rtype S: :class:`numpy.ndarray`
-
+    :return: the updated mean and standard deviation of the noise model.
+    :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`)
     """
     nlbound = snr_lowerbound * 0.01
     M_max = np.max(np.abs(M))
@@ -67,14 +77,12 @@ def noise_model(Wx, delta, noise_starttime, noise_endtime, nsigma_method, nlboun
     :type nlbound: float
     :param nsigma_gauss: umber of std for block threshold using Gaussian statistic.
     :type nsigma_gauss: float
-    :param detection: If ``True`` it will be applied before hard thresholding. default is ``False``.
+    :param detection: If ``True`` it will be applied before hard thresholding.
+        Default is ``False``.
     :type detection: bool
-    :return M: mean of noise model.
-    :rtype M: :class:`numpy.ndarray`
-    :return S: standard deviation of noise model.
-    :rtype S: :class:`numpy.ndarray`
-    :return P: threshold of the noise signal.
-    :rtype P: :class:`numpy.ndarray`
+    :return: the mean, standard deviation of the noise model, and
+        threshold of the noise signal.
+    :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`, :class:`numpy.ndarray`)
     """
     # Get the time window
     newbeg = int(np.round(noise_starttime/delta)) # python indexing starts with zero
@@ -123,7 +131,7 @@ def noise_thresholding(Wx, noise_threshold, P):
     :type noise_threshold: str
     :param P: threshold of the noise signal.
     :type P: :class:`numpy.ndarray`
-    :return Wx_new: (na,n) size matrix, rows=scales and cols=times
+    :return Wx_new: the new wavelet transform.
     :rtype Wx_new: :class:`numpy.ndarray`
 
     """
@@ -146,7 +154,7 @@ def signal_thresholding(Wx, signal_threshold, P):
     :type signal_threshold: str
     :param P: threshold of the noise signal.
     :type P: :class:`numpy.ndarray`
-    :return Wx_new: (na,n) size matrix, rows=scales and cols=times
+    :return Wx_new: the new wavelet transform.
     :rtype Wx_new: :class:`numpy.ndarray`
     """
     W_test = np.abs(Wx)

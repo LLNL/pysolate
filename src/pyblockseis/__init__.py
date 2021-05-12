@@ -27,4 +27,4 @@ by Charles A. Langston and S. Mostafa Mousavi.
 
 __version__ = "0.1.dev"
 
-from .block import Parameter, Block
+from .block import Parameter, Block, read

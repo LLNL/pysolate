@@ -5,11 +5,17 @@
 #        Ana Aguiar Moya (aguiarmoya1@llnl.gov)
 #        Andrea Chiang (andrea4@llnl.gov)
 #
-# Wavelet transform functions are based on the MATLAB Synchrosqueezing Toolbox by Eugene Brevdo.
+# Wavelet transform functions are based on the MATLAB
+# Synchrosqueezing Toolbox by Eugene Brevdo.
 # (http://www.math.princeton.edu/~ebrevdo/)
+"""
+Routines for handling the wavelet transform
+"""
+
 
 import math
 import numpy as np
+import fnmatch
 from scipy.integrate import quad
 from obspy.core.trace import Stats
 from obspy.core.util import AttribDict
@@ -20,9 +26,9 @@ def _psihfn(xi,wave_type):
 
 def wfilth(wave_type, N, a):
     """
-    Fast fourier transform of the wavelet function.
+    Fast fourier transform of the wavelet function
 
-    Outputs the FFT of a given ``wave_type`` of length N at scale a (psi(-t/a))^.
+    Outputs the FFT of a given ``wave_type`` of length N at scale a.
     
     :param wave_type: wavelet function.
     :type wave_type: str
@@ -30,8 +36,8 @@ def wfilth(wave_type, N, a):
     :type N: int
     :param a: wavelet scale.
     :type a: float
-    :return psih: wavelet sampling in frequency domain
-    :rtype psih: :class:`numpy.ndarray`
+    :return: wavelet sampling in frequency domain
+    :rtype: :class:`numpy.ndarray`
     """
     k = np.arange(0, N, 1, dtype=int)
     xi = np.zeros(N, dtype=float)
@@ -42,21 +48,21 @@ def wfilth(wave_type, N, a):
     # Normalizing
     psih = psih * math.sqrt(a) / math.sqrt(2*math.pi)
     # Center around zero in the time domain
-    psih = psih * np.power((-1),k);
+    psih = psih * np.power((-1),k)
     
     return psih
 
 
 def wfiltfn(xi, wave_type):
     """
-    Wavelet transform function of the wavelet filter in fourier domain.
+    Wavelet transform function of the wavelet filter in fourier domain
     
     :param xi: sampled time series.
-    :type xi: class:`numpy.ndarray`
+    :type xi: :class:`numpy.ndarray`
     :param wave_type: wavelet function.
     :type wave_type: str
-    :return psihfn: mother wavelet function.
-    :rtype psihfn: :class:`numpy.ndarray`
+    :return: mother wavelet function.
+    :rtype: :class:`numpy.ndarray`
     """
     if wave_type == "mhat":
         s = 1
@@ -76,7 +82,7 @@ def wfiltfn(xi, wave_type):
 
 def cwt(time_series, wave_type, nvoices, dt):
     """
-    Continuous wavelet transform using the wavelet function.
+    Continuous wavelet transform using the wavelet function
 
     :param time_series: input time series data.
     :type time_series: list or :class:`numpy.ndarray`
@@ -86,10 +92,9 @@ def cwt(time_series, wave_type, nvoices, dt):
     :type nvoices: int
     :param dt: sampling period.
     :type dt: float
-    :return Wx: wavelet transform of shape (len(scales), len(time_series))
-    :rtype Wx: :class:`numpy.ndarray`
-    :return scales: length vector containing the associated scales
-    :rtype scales: :class:`numpy.ndarray`
+    :returns: the wavelet transform of shape (scales, time_series),
+        and the length vector containing the associated scales.
+    :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`)
     """
     time_series = np.asarray(time_series)
     n = len(time_series) # number of samples
@@ -134,7 +139,7 @@ def cwt(time_series, wave_type, nvoices, dt):
 
 def inverse_cwt(Wx, wave_type, nvoices):
     """
-    Inverse continuous wavelet tranform/
+    Inverse continuous wavelet tranform
 
     Reconstructs the original signal from the wavelet transform.
     
@@ -144,8 +149,8 @@ def inverse_cwt(Wx, wave_type, nvoices):
     :type wave_type: str
     :param nvoices: sampling of CWT in scale.
     :type nvoices: int
-    :return time_series: time series data.
-    :rtype time_series: :class:`numpy.ndarray`
+    :return: time series data.
+    :rtype: :class:`numpy.ndarray`
     """    
     [num_scales, n] = np.shape(Wx)
     #Padding the siggnal
@@ -197,7 +202,8 @@ def inverse_cwt(Wx, wave_type, nvoices):
 def blockbandpass(Wx, scales, scale_min, scale_max, block_threshold):
     
     """
-    Apply a band reject filter to modify the wavelet coefficients over a scale bandpass.
+    Apply a band reject filter to modify the wavelet coefficients
+    over a scale bandpass
     
     :param Wx: wavelet transform of shape (len(scales), len(time_series))
     :type Wx: :class:`numpy.ndarray`
@@ -226,14 +232,39 @@ def blockbandpass(Wx, scales, scale_min, scale_max, block_threshold):
 
 class Wavelet(object):
     """
-    One dimensional continues wavelet transform of a time series.
+    One dimensional continues wavelet transform of a time series
+
+    Main class for a single wavelet transform including
+    the station headers, wavelet coefficients and scales.
+    Noise model calculated from the function
+    :func:`~pyblockseis.threshold.noise_model` is passed through
+    additional ``kwargs``.
 
     :param coefs: Continuous wavelet transform of a time series,
         the first axis corresponds to the scales and the second axis
         corresponds to the length of the time series.
     :type coefs: :class:`numpy.ndarray`
     :param scales: Wavelet scales
-    :param kwargs: Noise model parameters.
+    :type scales: :class:`numpy.ndarray`
+    :param headers: header information of the data.
+    :type headers: dict, :class:`~obspy.core.trace.Stats`
+    :param M: mean of noise model.
+    :type M: :class:`numpy.ndarray`
+    :param S: standard deviation of noise model.
+    :type S: :class:`numpy.ndarray`
+    :param P: threshold of the noise signal.
+    :type P: :class:`numpy.ndarray`
+
+    .. rubric:: Attributes
+
+    ``stats`` : :class:`~obspy.core.trace.Stats`
+        header of the wavelet transform, including station info.
+    ``scales`` : :class:`numpy.ndarray`
+        wavelet scales.
+    ``coefs`` : :class:`numpy.ndarray`
+        wavelet coefficients.
+    ``noise_model`` : :class:`~obspy.core.util.attribdict.AttribDict`
+        noise model
     """
     def __init__(self, coefs=None, scales=None, headers=None, **kwargs):
         if headers is None:
@@ -244,6 +275,13 @@ class Wavelet(object):
         self.noise_model = AttribDict(**kwargs)
 
     def get_id(self):
+        """
+        Returns the station ID
+
+        :return: station ID containing network, station, location and
+            channel codes.
+        :rtype: str
+        """
         out = "%(network)s.%(station)s.%(location)s.%(channel)s"
         return out%(self.stats)
 
@@ -267,7 +305,13 @@ class Wavelet(object):
 
 class WaveletCollection(object):
     """
-    Collection of wavelet objects.
+    A collection of wavelet objects
+
+    Main class that contains wavelet transforms for multiple
+    time series.
+
+    :param wavelets: wavelet transform(s).
+    :type wavelets: :class:`~pyblockseis.wavelet.Wavelet`, list
     """
     def __init__(self, wavelets=None):
         self.wavelets = []
@@ -313,26 +357,60 @@ class WaveletCollection(object):
         return self.__class__(wavelets=self.wavelets[max(0, i):max(0, j):k])
 
     def select(self, network=None, station=None, location=None, channel=None,
-               starttime=None, endtime=None):
+               component=None):
+        """
+        Query wavelets
+
+        Select wavelet transforms that matches the given station criteria.
+
+        :param tag: processed data to plot.
+        :type tag: str
+        :param network: network code.
+        :type network: str
+        :param station: station code.
+        :type station: str
+        :param location: location code.
+        :type location: str
+        :param channel: channel code.
+        :type channel: str
+        :param component: component code.
+        :type component: str
+        """
+        # Adapted from ObsPy Stream select method
         wavelets = []
+        if component is not None and channel is not None:
+            component = component.upper()
+            channel = channel.upper()
+            if (channel[-1:] not in "?*" and component not in "?*" and
+                    component != channel[-1:]):
+                msg = "Selection criteria for channel and component are " + \
+                      "mutually exclusive!"
+                raise ValueError(msg)
         for _i in self.wavelets:
             if network is not None:
-                if _i.stats.network != network:
+                if not fnmatch.fnmatch(
+                        _i.stats.network.upper(), network.upper()
+                ):
                     continue
             if station is not None:
-                if _i.stats.station != station:
+                if not fnmatch.fnmatch(
+                        _i.stats.station.upper(), station.upper()
+                ):
                     continue
             if location is not None:
-                if _i.stats.location != location:
+                if not fnmatch.fnmatch(
+                        _i.stats.location.upper(), location.upper()
+                ):
                     continue
             if channel is not None:
-                if _i.stats.channel != channel:
+                if not fnmatch.fnmatch(
+                        _i.stats.channel.upper(), channel.upper()
+                ):
                     continue
-            if starttime is not None:
-                if _i.stats.starttime != starttime:
-                    continue
-            if endtime is not None:
-                if _i.stats.endtime != endtime:
+            if component is not None:
+                if not fnmatch.fnmatch(
+                        _i.stats.component.upper(), component.upper()
+                ):
                     continue
             wavelets.append(_i)
 

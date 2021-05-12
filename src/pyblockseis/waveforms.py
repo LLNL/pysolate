@@ -4,7 +4,7 @@
 # authors:
 #        Andrea Chiang (andrea4@llnl.gov)
 """
-Routines for handling waveform data
+Routines for handling waveform dataå
 """
 
 
@@ -12,14 +12,35 @@ import obspy
 
 
 class Waveforms(object):
+    """
+    Main class for waveform data
+
+    :param tag_options: a list of available tags, this defines the list of
+        keys for the ``data`` attribute.
+    :type tag_options: list
+
+    .. rubric:: Additional Attributes
+
+    ``station_name`` : list of str
+        stations names.
+    ``data`` : dict of ObsPy Stream objects
+        waveform data, refer to :meth:`obspy.core.stream.Stream.select`
+        for details on how to query the traces.
+    """
     def __init__(self, tag_options):
+        self.tag_options = tag_options
         self.station_name = []
         self.data = {}
-        self.tag_options = tag_options
 
     def add_waveform(self, wfs, tag):
         """
-        Function to add seismic waveform data.
+        Function to add seismic waveform data
+
+        :param wfs: waveform files.
+        :type wfs: :class:`~obspy.core.stream.Stream`,
+            :class:`~obspy.core.trace.Trace`, str, ...
+        :param tag: data type.
+        :type tag: str
         """
         if tag not in self.tag_options:
             msg = "Invalid waveform data type, tag options are %s" %self.tag_options
@@ -32,14 +53,6 @@ class Waveforms(object):
             self._add_station_to_list(info["station_name"])
 
         self.data[tag] = wfs
-
-    def get_data(self, tag, **kwargs):
-        """
-        Return a new Stream object that contains traces matching the given stats criteria,
-        the new traces are only references to the original traces.
-        Refer to :meth:`~obspy.core.stream.Stream.select()` for acceptable kwargs.
-        """
-        return self.data[tag].select(**kwargs)
 
     def _parse_waveform(self, wfs):
         if isinstance(wfs, obspy.Trace):

@@ -4,6 +4,10 @@
 # authors:
 #        Ana Aguiar Moya (aguiarmoya1@llnl.gov)
 #        Andrea Chiang (andrea4@llnl.gov)
+"""
+Core module for pyBlockSeis
+"""
+
 
 import numpy as np
 import pyasdf
@@ -20,18 +24,116 @@ TAG_OPTIONS = ["input", "band_rejected", "noise_removed", "signal_removed"]
 CUSTOM_ATTR = "wavelet"
 
 
+def read(params=None, **kwargs):
+    """
+    Read waveform files and processing parameters into
+    a pyBlockSeis Block object
+
+    The :func:`~pyblockseis.block.read` function accepts waveform files
+    in either ObsPy Stream or Trace objects, or something ObsPy can read.
+    If  a :class:`~pyblockseis.block.Parameter` object is not provided, the
+    default processing values will be used instead.
+
+    :param params: parameters required to run the denoiser.
+    :type params: :py:class:`~pyblockseis.block.Parameter`
+    :param event: Object containing information that describes the seismic event.
+    :type event: :class:`~obspy.core.event.event.Event` or
+        :class:`~obspy.core.event.Catalog`, optional
+    :param data: Waveform data in ObsPy trace or stream formats or something ObsPy can read.
+    :type data: :class:`~obspy.core.stream.Stream`,
+        :class:`~obspy.core.trace.Trace`, str, ...
+    :param asdf_file: HDF5 file name.
+    :type asdf_file: str
+    :param field: path of waveform files within the ASDF volume, default is
+        ``"raw_observed"``.
+    :type field: str
+
+    .. rubric:: Examples
+
+    (1) Reading from a SAC file
+
+        >>> import pyblockseis as bcs
+        >>> params = bcs.params((block_threshold=1.0, noise_threshold="hard")
+        >>> block = bcs.read(params=params, data="testdata/5014.YW.0.sp0011.DPZ")
+        >>> # Using default values
+        >>> block = bcs.read(data="testdata/5014.YW.0.sp0011.DPZ")
+
+    (2) Reading from a ASDF file
+
+        >>> import pyblockseis as bcs
+        >>> params = bcs.params((block_threshold=1.0, noise_threshold="hard")
+        >>> block = bcs.read(params=params, asdf_file="testdata/578449.h5")
+    """
+    # Parse kwargs
+    asdf_file = kwargs.get("asdf_file", None)
+    field = kwargs.get("field", "raw_observed")
+    if asdf_file is None:
+        event = kwargs.get("event", Event())
+        if isinstance(event, Event):
+            pass
+        elif isinstance(event, Catalog):
+            if len(event) > 1:
+                raise ValueError("More than one event exists.")
+            event = event[0]
+        else:
+            raise TypeError("Must be an ObsPy event or catalog instance.")
+
+        data = kwargs.get("data", None)
+        if data is None:
+            raise ValueError("No data provided.")
+    else:
+        event, data = _read_asdf_file(asdf_file, field)
+
+    if params is None:
+        params = Parameter()
+    else:
+        params = deepcopy(params)
+
+    # Initialize waveform object and add input data
+    waveforms = Waveforms(TAG_OPTIONS)
+    waveforms.add_waveform(data, tag="input")
+
+    # Create Block object
+    block = Block(params=params, event=event, waveforms=waveforms)
+
+    return block
+
+
+def _read_asdf_file(asdf_file, field):
+    """
+    Reads a pyasdf file and returns ObsPy Event and Stream objects
+
+    :param asdf_file: HDF5 file name.
+    :type asdf_file: str
+    :param field: path of waveform files within the ASDF volume.
+    :type field: str
+    """
+    with pyasdf.ASDFDataSet(asdf_file) as ds:
+        if len(ds.events) > 1:
+            raise ValueError("ASDF volume contains more than one seismic event.")
+        event = ds.events[0]
+        for i, stat in enumerate(ds.waveforms):
+            if i == 0:
+                data = stat[field]
+            else:
+                data += stat[field]
+
+    return event, data
+
+
 class Parameter(object):
     """
-    A container for parameters required to set up and run the denoiser.
+    A container of parameters required to run
+    :py:class:`~pyblockseis.block.Block`
     
     The Parameter class determines the appropriate processes to be applied
     to the seismograms.
     
-    :param wave_type: wavelet filter type, options are ``"morlet"``,``"shannon"``,
-        ``"mhat"``,``"hhat"``. Default is ``"morlet"``.
+    :param wave_type: wavelet filter type, options are ``"morlet"``, ``"shannon"``,
+        ``"mhat"``, ``"hhat"``. Default is ``"morlet"``.
     :type wave_type: str
-    :param nvoices: number of voices refers to the sampling of CWT in scale,
-        higher number of voices give finer resolution. Default is ``16``.
+    :param nvoices: number of voices, or the sampling of CWT in scale.
+        Higher number of voices give finer resolution. Default is ``16``.
     :type nvoices: int
     :param bandpass_blocking: Default value ``True`` will apply a band rejection filter where
         wavelet coefficients are modified over a scale bandpass.
@@ -66,7 +168,6 @@ class Parameter(object):
     :type snr_detection: bool
     :param snr_lowerbound: Noise level percent lower bound. Default is ``1.0``.
     :type snr_lowerbound: float
-    
     """
     # Default values
     _defaults = dict(
@@ -110,6 +211,9 @@ class Parameter(object):
         self.update(dict(*args, **kwargs))
 
     def keys(self):
+        """
+        Returns a list of object attributes.
+        """
         return list(self.__dict__.keys())
 
     def update(self, adict={}):
@@ -179,72 +283,85 @@ class Parameter(object):
 
 class Block(object):
     """
-    Block Choice Seismic Analysis in Python
-    
-    :param choice: parameters required to run the denoiser.
-    :type choice: :py:class:`~pyblockseis.block.Parameter`
-    :param event: Object containing information that describes the seismic event.
-    :type event: :class:`~obspy.core.event.Event` or
-        :class:`~obspy.core.event.Catalog`
-    :param data: Waveform data in ObsPy trace or stream formats or something ObsPy can read.
-    :type data: :class:`~obspy.core.stream.Stream`,
-        :class:`~obspy.core.trace.Trace`, str, ...
-    :param asdf_file: HDF5 file name.
-    :type asdf_file: str
-    :param field: path of waveform files within the ASDF volume, default is ``"raw_observed"``.
-    :type field: str
+    Root object for the time series and CWT
+
+    Main class object that handles the processing of seismic data
+    using the continuous wavelet transform. The ``tags`` attribute
+    is a list of available processed waveforms and their wavelet transforms,
+    depending on the choices set in :class:`~pyblockseis.block.Parameter`.
+    See all possible tags below.
+
+    :param params: CWT operations.
+    :type params: :class:`~pyblockseis.block.Parameter`
+    :param event: seismic event information.
+    :type event: :class:`~obspy.core.event.event.Event`
+    :param waveforms: seismic data.
+    :type waveforms: :class:`~pyblockseis.waveforms.Waveforms`
+
+    .. rubric:: Attributes
+
+    ``params`` : Parameter object
+        CWT operations.
+    ``event`` : ObsPy event
+        event information.
+    ``waveforms`` : Waveforms object
+        seismic waveforms.
+    ``wavelets`` : WaveletCollection object
+        wavelet transforms of the processed data.
+    ``noise_model_tag`` : str
+        wavelet transform of data used to estimate the noise model,
+        depending on the processing choices this will be
+        ``"input"``, ``"band_rejected"`` or ``None``.
+
+    .. rubric:: Available Tags
+
+    .. cssclass: table-striped
+
+    ================   =====================   ===============================
+    ``tag``            parameters              description
+    ================   =====================   ===============================
+    "input"            none                    input data
+    "band_rejected"    ``bandpass_blocking``   applied a band rejection filter
+    "noise_removed"    ``noise_threshold``     noise removed from data
+    "signal_removed"   ``signal_threshold``    signal removed from data
+    ================   =====================   ===============================
+
+    .. rubric:: Basic Usage
+
+    >>> import pyblockseis as bcs
+    >>> block = bcs.read(data="testdata/5014.YW.0.sp0011.DPZ")
+    >>> block.run()
     """
-    def __init__(self,choice=None, **kwargs):
-        # Parse kwargs
-        asdf_file = kwargs.get("asdf_file", None)
-        field = kwargs.get("field", "raw_observed")
-        if asdf_file is None:
-            event = kwargs.get("event", Event())
-            data = kwargs.get("data", None)
-            if data is None:
-                raise ValueError("No data provided.")
-        else:
-            event, data = self._read_asdf_file(asdf_file, field)
-
-        # Initialize wavelet parameters
-        if choice is None:
-            choice = Parameter()
-        self.params = deepcopy(choice)
-        self.current_params = None
-        self.current_tag = None # Tagged data used to estimate noise model
-        self.wavelets = {}
-
-        # Initialize waveform object
-        waveforms = Waveforms(TAG_OPTIONS)
-
-        # Add input data
-        waveforms.add_waveform(data, tag="input")
-
-        self.current_tag = "input"
+    def __init__(self, params, event, waveforms):
+        self.params = params
         self.event = event
         self.waveforms = waveforms
 
-    def _read_asdf_file(self, asdf_file, field):
-        with pyasdf.ASDFDataSet(asdf_file) as ds:
-            if len(ds.events) > 1:
-                raise ValueError("ASDF volume contains more than one seismic event.")
-            event = ds.events[0]
-            for i, stat in enumerate(ds.waveforms):
-                if i == 0:
-                    data = stat[field]
-                else:
-                    data += stat[field]
+        self.current_params = None
+        self.current_tag = "input"
+        self.noise_model_tag = None
 
-        return event, data
+        self.wavelets = {}
 
     def get_station_list(self):
+        """
+        Function to return a list of available stations
+        """
         return self.waveforms.station_name
 
     def run(self):
+        """
+        Function to run the CWT-based thresholding operations
+
+        Apply the nonlinear thresholding operations given the values
+        in the ``params`` attribute and reconstruct the time series.
+        """
         if self.current_params is not None:
-            changed_keys = [key for key in self.params.keys() if self.params[key] != self.current_params[key]]
+            changed_keys = [
+                key for key in self.params.keys() if self.params[key] != self.current_params[key]
+            ]
             if len(changed_keys) > 0:
-                self.update_run(changed_keys)
+                self._update_run(changed_keys)
             else:
                 print("Parameters did not change, nothing is done.")
         else:
@@ -252,6 +369,8 @@ class Block(object):
 
         # Current state of CWT operations
         self.current_params = deepcopy(self.params)
+        if self.current_params.estimate_noise:
+            self.noise_model_tag = self.current_tag
 
     def _run_all(self):
         """
@@ -259,107 +378,21 @@ class Block(object):
         """
         self.tags = [] # all available tags
         # continuous wavelet transform of input data
-        self.call_cwt()
+        self._call_cwt()
 
         # Apply bandpass blocking
         if self.params.bandpass_blocking:
-            self.apply_bandpass_blocking()
+            self._apply_bandpass_blocking()
 
         # Estimate noise model
         if self.params.estimate_noise:
-            self.call_noise_model()
+            self._call_noise_model()
             if self.params.noise_threshold is not None:
-                self.apply_thresholding("noise_removed")
+                self._apply_thresholding("noise_removed")
             if self.params.signal_threshold is not None:
-                self.apply_thresholding("signal_removed")
+                self._apply_thresholding("signal_removed")
 
-    def call_cwt(self, tag="input"):
-        """
-        Continues wavelet transform of waveform data
-        """
-        waves = []
-        for trace in self.waveforms.data[tag]:
-            wx, scales = cwt(trace.data, self.params.wave_type, self.params.nvoices, trace.stats.delta)
-            waves.append(Wavelet(coefs=wx, scales=scales, headers=trace.stats))
-
-        self.wavelets[tag] = WaveletCollection(wavelets=waves)
-        self.current_tag = tag
-        self.tags = tag
-
-    def apply_bandpass_blocking(self, tag="band_rejected"):
-        """
-        Apply bandpass filtering on CWT of input data
-        """
-        waves = []
-        for wave in self.wavelets["input"]:
-            wx = blockbandpass(
-                wave.coefs,
-                wave.scales,
-                self.params.scale_min,
-                self.params.scale_max,
-                self.params.block_threshold
-            )
-            waves.append(Wavelet(coefs=wx, scales=wave.scales, headers=wave.stats))
-
-        self.wavelets[tag] = WaveletCollection(wavelets=waves)
-        self.reconstruct(tag)
-        self.current_tag = tag
-        self.tags = tag
-
-    def call_noise_model(self):
-        """
-        Construct noise model
-        """
-        for wave in self.wavelets[self.current_tag]:
-            M, S, P = noise_model(
-                wave.coefs, # cwt coefficients used to estimate noise model
-                wave.stats.delta,
-                self.params.noise_starttime,
-                self.params.noise_endtime,
-                self.params.nsigma_method,
-                self.params.snr_lowerbound,
-                self.params.snr_detection
-            )
-            wave.noise_model.M = M
-            wave.noise_model.S = S
-            wave.noise_model.P = P
-
-    def apply_thresholding(self, method):
-        """
-        Apply noise/signal thresholding
-        """
-        _get_function = {"noise_removed": (noise_thresholding, self.params.noise_threshold),
-                         "signal_removed": (signal_thresholding, self.params.signal_threshold)
-                        }
-        func = _get_function[method]
-        waves = []
-        for wave in self.wavelets[self.current_tag]:
-            wx = func[0](wave.coefs, func[1], wave.noise_model.P)
-            waves.append(Wavelet(coefs=wx, scales=wave.scales, headers=wave.stats))
-
-        self.wavelets[method] = WaveletCollection(wavelets=waves)
-        self.reconstruct(method)
-        self.tags = method
-
-    def reconstruct(self, tag):
-        """
-        Reconstruct time series.
-        """
-        if tag not in self.waveforms.data.keys():
-            st = self.waveforms.data["input"].copy()
-        else:
-            st = self.waveforms.data[tag]
-
-        for wave, trace in zip(self.wavelets[tag], st):
-            trace.data = inverse_cwt(
-                wave.coefs,
-                self.params.wave_type,
-                self.params.nvoices,
-            )
-
-        self.waveforms.data[tag] = st
-
-    def update_run(self, changed_keys):
+    def _update_run(self, changed_keys):
         bandpass_key = [
             "bandpass_blocking",
             "scale_min",
@@ -426,23 +459,23 @@ class Block(object):
             # Apply changes
             if apply_blocking:
                 print("Apply new bandpass blocking.")
-                self.apply_bandpass_blocking()
+                self._apply_bandpass_blocking()
             if apply_noise_model:
                 print("Estimate new noise model.")
-                self.call_noise_model()
+                self._call_noise_model()
             if apply_noise_threshold:
                 print("Apply new noise thresholding.")
-                self.apply_thresholding("noise_removed")
+                self._apply_thresholding("noise_removed")
             if apply_signal_threshold:
                 print("Apply new signal thresholding.")
-                self.apply_thresholding("signal_removed")
+                self._apply_thresholding("signal_removed")
             # Refresh
             if len(refresh_waves) > 0:
-                self.refresh_cwt_icwt(refresh_waves)
+                self._refresh_cwt_icwt(refresh_waves)
             if len(refresh_noise) > 0:
-                self.refresh_noise_model(refresh_noise)
+                self._refresh_noise_model(refresh_noise)
 
-    def refresh_cwt_icwt(self, tags):
+    def _refresh_cwt_icwt(self, tags):
         # refresh cwt and wavelet processed data
         for tag in tags:
             for wave in self.wavelets[tag]:
@@ -451,25 +484,262 @@ class Block(object):
             self.waveforms.data.pop(tag) # self.waveforms._data.pop(tag, None)
             self.tags.remove(tag)
 
-    def refresh_noise_model(self, noise_param):
+    def _refresh_noise_model(self, noise_param):
         for wave in self.wavelets[self.current_tag]:
             wave[noise_param].clear()
 
-    def get_noise_model(self):
+    def _call_cwt(self, tag="input"):
         """
-        Returns a WaveletCollection with noise model
+        Continues wavelet transform of waveform data
         """
-        return self.wavelets[self.current_tag]
+        waves = []
+        for trace in self.waveforms.data[tag]:
+            wx, scales = cwt(
+                trace.data,
+                self.params.wave_type,
+                self.params.nvoices,
+                trace.stats.delta
+            )
+            waves.append(Wavelet(coefs=wx, scales=scales, headers=trace.stats))
 
-    def plot(self, tag, network=None, station=None, location=None, channel=None):
-        """
-        Plot time-frequency representation (TFR) of a single time series.
+        self.wavelets[tag] = WaveletCollection(wavelets=waves)
+        self.current_tag = tag
+        self.tags = tag
 
-        :param trace_id: time series to plot.
-        :type trace_id: int
+    def _apply_bandpass_blocking(self, tag="band_rejected"):
+        """
+        Apply bandpass filtering on CWT of input data
+        """
+        waves = []
+        for wave in self.wavelets["input"]:
+            wx = blockbandpass(
+                wave.coefs,
+                wave.scales,
+                self.params.scale_min,
+                self.params.scale_max,
+                self.params.block_threshold
+            )
+            waves.append(Wavelet(coefs=wx, scales=wave.scales, headers=wave.stats))
+
+        self.wavelets[tag] = WaveletCollection(wavelets=waves)
+        self.reconstruct(tag)
+        self.current_tag = tag
+        self.tags = tag
+
+    def _call_noise_model(self):
+        """
+        Construct noise model
+        """
+        for wave in self.wavelets[self.current_tag]:
+            M, S, P = noise_model(
+                wave.coefs, # cwt coefficients used to estimate noise model
+                wave.stats.delta,
+                self.params.noise_starttime,
+                self.params.noise_endtime,
+                self.params.nsigma_method,
+                self.params.snr_lowerbound,
+                self.params.snr_detection
+            )
+            wave.noise_model.M = M
+            wave.noise_model.S = S
+            wave.noise_model.P = P
+
+    def _apply_thresholding(self, method):
+        """
+        Apply noise/signal thresholding
+        """
+        _get_function = {"noise_removed": (noise_thresholding, self.params.noise_threshold),
+                         "signal_removed": (signal_thresholding, self.params.signal_threshold)
+                        }
+        func = _get_function[method]
+        waves = []
+        for wave in self.wavelets[self.current_tag]:
+            wx = func[0](wave.coefs, func[1], wave.noise_model.P)
+            waves.append(Wavelet(coefs=wx, scales=wave.scales, headers=wave.stats))
+
+        self.wavelets[method] = WaveletCollection(wavelets=waves)
+        self.reconstruct(method)
+        self.tags = method
+
+    def reconstruct(self, tag):
+        """
+        Reconstruct time series
+
+        A function that performs the inverse continuous wavelet transform
+        to reconstruct the time series from the wavelet coefficients.
+
+        :param tag: time series to reconstruct.
+        :type tag:
+        """
+        # check if tags are available?
+        # self.wavelets.keys()
+        if tag not in self.waveforms.data.keys():
+            st = self.waveforms.data["input"].copy()
+        else:
+            st = self.waveforms.data[tag]
+
+        for wave, trace in zip(self.wavelets[tag], st):
+            trace.data = inverse_cwt(
+                wave.coefs,
+                self.params.wave_type,
+                self.params.nvoices,
+            )
+
+        self.waveforms.data[tag] = st
+
+    def get_waveforms(self, tag):
+        """
+        Returns a :class:`~pyblockseis.waveforms.Waveforms`
+        object
+
+        A function that returns the waveforms of a tagged dataset
+
+        :param tag: processed data
+        :type tag: str
+        """
+        if tag not in self.tags:
+            msg = ', '.join([ "'%s'"%_i for _i in self.tags])
+            msg = ' '.join(
+                ["Wavelet transform is not available, available tags are", msg]
+            )
+            print(msg)
+        else:
+            return self.waveforms.data[tag]
+
+        return self.waveforms[tag]
+
+    def get_wavelets(self, tag):
+        """
+        Returns a :class:`~pyblockseis.wavelet.WaveletCollection`
+        object
+
+        A function that returns the wavelet transform of a tagged dataset
+
+        :param tag: processed data
+        :type tag: str
+        """
+        if tag not in self.tags:
+            msg = ', '.join([ "'%s'"%_i for _i in self.tags])
+            msg = ' '.join(
+                ["Wavelet transform is not available, available tags are", msg]
+            )
+            print(msg)
+        else:
+            return self.wavelets[tag]
+
+    def write(self, tag, output=None, filename=None, format="npz",
+              network=None, station=None, location=None, channel=None, component=None):
+        """
+        Write the processed data to file
+
+        Function to save the waveforms or wavelet transforms to a single
+        uncompressed NumPy .npz format. Additional formats for the
+        waveforms are supported through ObsPy, such as binary SAC.
+        See :meth:`obspy.core.stream.Stream.write` for the supported waveform
+        data formats.
+
+        :param tag: input or processed dataset to save.
+        :type tag: str
+        :param output: type of output to save, ``"waveforms"`` for time series data, or
+            ``"cwt"`` for the continuous wavelet transform.
+        :type output: str
+        :param filename: name of the file to write, optional.
+        :type filename: str
+        :param format: output file format, default is ``"npz"``. For waveform data
+            see :meth:`~obspy.core.stream.Stream.write` for additional supported
+            formats.
+        :type format: str
+        :param network: network code.
+        :type network: str
+        :param station: station code.
+        :type station: str
+        :param location: location code.
+        :type location: str
+        :param channel: channel code.
+        :type channel: str
+        :param component: component code.
+        :type component: str
+        """
+        if output is None:
+            print("No output type selected, nothing is done.")
+        else:
+            output = output.lower()
+            format = format.lower()
+            # Write all stations if none specified
+            stations = all(
+                v is None for v in [
+                    network, station, location, channel, component]
+            )
+            if output == "waveforms":
+                if stations:
+                    st = self.waveforms.data[tag]
+                else:
+                    st = self.waveforms.data[tag].select(
+                        network=network,
+                        station=station,
+                        location=location,
+                        channel=channel,
+                        component=component,
+                    )
+                if format == "npz":
+                    _write_waveforms_npz(st, filename)
+                else:
+                    if filename is None:
+                        for tr in st:
+                            filename = "%s.%s"%(tr.id, format)
+                            tr.write(filename, format=format)
+                    else:
+                        st.write(filename, format=format)
+            elif output == "cwt":
+                if stations:
+                    waves = self.wavelets[tag]
+                else:
+                    waves = self.wavelets[tag].select(
+                        network=network,
+                        station=station,
+                        location=location,
+                        channel=channel,
+                        component=component,
+                    )
+                if format == "npz":
+                    _write_wavelets_npz(waves, filename)
+                else:
+                    msg = "%s is not a valid format for wavelet transforms."%format
+                    raise ValueError(msg)
+            else:
+                msg = "%s is not a valid output type."%output
+                raise ValueError(msg)
+
+    def plot(self, tag,
+             network=None, station=None, location=None, channel=None, component=None):
+        """
+        Plot the time-frequency representation, or scalogram, of the current
+        pyblockseis Block object
+
+        Plot the scalograms for all traces in the object. Alternatively,
+        specific traces can be selected that matches the given station criteria.
+
+        :param tag: processed data to plot.
+        :type tag: str
+        :param network: network code.
+        :type network: str
+        :param station: station code.
+        :type station: str
+        :param location: location code.
+        :type location: str
+        :param channel: channel code.
+        :type channel: str
+        :param component: component code.
+        :type component: str
+
+        .. rubric:: Example
+
+        >>> block.plot("noise_removed", network="BK", channel="HH*")
         """
         # Plot all stations if none specified
-        if all (v is None for v in [network, station, location, channel]):
+        if all (
+                v is None for v in [network, station, location, channel, component]
+        ):
             st = self.waveforms.data[tag]
             waves = self.wavelets[tag]
         else:
@@ -478,12 +748,14 @@ class Block(object):
                 station=station,
                 location=location,
                 channel=channel,
+                component=component,
             )
             waves = self.wavelets[tag].select(
                 network=network,
                 station=station,
                 location=location,
                 channel=channel,
+                component=component
             )
 
         # matplotlib.patch.Patch properties for text box
@@ -518,23 +790,25 @@ class Block(object):
 
     @property
     def event(self):
+        """
+        Returns an ObsPy event object containing information
+        that describes the seismic event
+        """
         return self._event
 
     @event.setter
     def event(self, event):
         if isinstance(event, Event):
-            event = event
-        elif isinstance(event, Catalog):
-            if len(event) > 1:
-                raise ValueError("More than one event exists.")
-            event = event[0]
+            self._event = event
         else:
-            raise TypeError("Must be an ObsPy event or catalog instance.")
-
-        self._event = event
+            raise TypeError("Must be an ObsPy event instance.")
 
     @property
     def tags(self):
+        """
+        Returns a list of available tags in the dataset after applying
+        the wavelet thresholding operations
+        """
         return self._tags
 
     @tags.setter
@@ -555,7 +829,7 @@ class Block(object):
 
     def __str__(self):
         """
-        Return better readable string representation of Block object.
+        Return better readable string representation of Block object
         """
         pretty_string = '\n'.join(
             [
@@ -569,3 +843,35 @@ class Block(object):
     
     def _repr_pretty_(self, p, cycle):
         p.text(str(self))
+
+
+def _write_waveforms_npz(st, filename):
+    if filename is None:
+        for tr in st:
+            filename = tr.id + ".npz"
+            np.savez(filename, times=tr.times(), data=tr.data)
+    else:
+        if isinstance(filename, str):
+            kwds = {}
+            for tr in st:
+                kwds["%s_times"%tr.id] = tr.times()
+                kwds["%s_data"%tr.id] = tr.data
+            np.savez(filename, **kwds)
+        else:
+            raise TypeError("'filename' must be a string.")
+
+
+def _write_wavelets_npz(waves, filename):
+    if filename is None:
+        for w in waves:
+            filename = "%s.cwt.npz"%w.get_id()
+            np.savez(filename, scales=w.scales, coefs=w.coefs)
+    else:
+        if isinstance(filename, str):
+            kwds = {}
+            for w in waves:
+                kwds["%s_scales"%w.get_id()] = w.scales
+                kwds["%s_coefs"%w.get_id()] = w.coefs
+            np.savez(filename, **kwds)
+        else:
+            raise TypeError("'filename' must be a string.")
