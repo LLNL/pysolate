@@ -34,14 +34,10 @@ import numpy as np
 # +
 # Read example data from BCseis
 sacfile = "testdata/5014.YW.0.sp0011.DPZ"
-#sacfile = "testdata/*DPZ" # multiple traces
-st = read(sacfile)
 
 start = timeit.timeit()
 params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
-
-# Initalize the block processing module
-block = bcs.Block(choice=params, data=st)
+block = bcs.read(params=params, data=sacfile)
 print(block)
 
 # Run the denoiser
@@ -56,8 +52,14 @@ block.plot("signal_removed")
 print("Run took %.4f seconds"%(end - start))
 # -
 
+# #### Get stations and tags
+
+# +
 # Available stations
-block.get_station_list()
+print(block.get_station_list())
+
+# Available tags
+print(block.tags)
 
 # +
 # Compare noise model outputs
@@ -65,7 +67,9 @@ plt.figure()
 plt.title("Noise model")
 
 # Get the noise model
-waves = block.get_noise_model().select(network="YW", station="5014")
+tag = block.noise_model_tag
+print("Noise model estimated from '%s' data."%tag)
+waves = block.get_wavelets(tag).select(network="YW", station="5014")
 
 # Plot figure
 plt.plot(waves[0].noise_model.P,"k",label="P-python")
@@ -166,13 +170,49 @@ filename = "testdata/578449.h5"
 params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
 
 # Initalize the block processing module
-block = bcs.Block(choice=params, asdf_file=filename)
-# -
+block = bcs.read(params=params, asdf_file="testdata/578449.h5")
+
+# Event information
+print(block.event)
 
 block.run()
 print(block.get_station_list())
 print(block.tags)
+# -
 
-block.plot("noise_removed", station="ELK")
+# #### Test write function
+
+# +
+tag = "noise_removed"
+
+# Waveforms
+filename="junk"
+output="waveforms"
+
+# npz format
+block.write(tag, output=output, format="npz")
+npzfile = np.load("LB.DAC..LHR.npz")
+print(npzfile.files)
+block.write(tag, output=output, format="npz", filename=filename)
+npzfile = np.load("junk.npz")
+print(npzfile.files)
+
+# SAC format
+filename = "junk.sac"
+block.write(tag, output=output, format="SAC")
+block.write(tag, output=output, format="SAC", filename=filename)
 
 
+
+# +
+# CWTs
+filename="junk.cwt"
+output="cwt"
+
+# npz format
+block.write(tag, output=output, format="npz")
+npzfile = np.load("LB.DAC..LHR.cwt.npz")
+print(npzfile.files)
+block.write(tag, output=output, format="npz", filename=filename)
+npzfile = np.load("junk.cwt.npz")
+print(npzfile.files)
