@@ -5,13 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyblockseis.wavelet.cwt &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyblockseis.wavelet.inverse_cwt" href="pyblockseis.wavelet.inverse_cwt.html" />
@@ -133,8 +132,8 @@
 <h1>pyblockseis.wavelet.cwt<a class="headerlink" href="#pyblockseis-wavelet-cwt" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="pyblockseis.wavelet.cwt">
-<code class="sig-name descname">cwt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time_series</span></em>, <em class="sig-param"><span class="n">wave_type</span></em>, <em class="sig-param"><span class="n">nvoices</span></em>, <em class="sig-param"><span class="n">dt</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/wavelet.html#cwt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyblockseis.wavelet.cwt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Continuous wavelet transform using the wavelet function.</p>
+<code class="sig-name descname"><span class="pre">cwt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nvoices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/wavelet.html#cwt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyblockseis.wavelet.cwt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Continuous wavelet transform using the wavelet function</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -144,17 +143,12 @@
 <li><p><strong>dt</strong> (<em>float</em>) – sampling period.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return Wx</dt>
-<dd class="field-even"><p>wavelet transform of shape (len(scales), len(time_series))</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the wavelet transform of shape (scales, time_series),
+and the length vector containing the associated scales.</p>
 </dd>
-<dt class="field-odd">Rtype Wx</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
-</dd>
-<dt class="field-even">Return scales</dt>
-<dd class="field-even"><p>length vector containing the associated scales</p>
-</dd>
-<dt class="field-odd">Rtype scales</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -174,7 +168,7 @@
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

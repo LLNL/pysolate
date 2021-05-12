@@ -23,6 +23,17 @@
 
    
    
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree: .
+      :template: class.rst
+      :nosignatures:
+
+   
+      Wavelet
+      WaveletCollection
+   
    
 
    

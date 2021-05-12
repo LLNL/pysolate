@@ -5,13 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyblockseis.threshold.SNR_detect &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyblockseis.threshold.ecdf" href="pyblockseis.threshold.ecdf.html" />
@@ -133,8 +132,8 @@
 <h1>pyblockseis.threshold.SNR_detect<a class="headerlink" href="#pyblockseis-threshold-snr-detect" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="pyblockseis.threshold.SNR_detect">
-<code class="sig-name descname">SNR_detect</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Wx</span></em>, <em class="sig-param"><span class="n">M</span></em>, <em class="sig-param"><span class="n">newbeg</span></em>, <em class="sig-param"><span class="n">newend</span></em>, <em class="sig-param"><span class="n">snr_lowerbound</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/threshold.html#SNR_detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyblockseis.threshold.SNR_detect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply SNR detection to CWT.</p>
+<code class="sig-name descname"><span class="pre">SNR_detect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Wx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newbeg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snr_lowerbound</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/threshold.html#SNR_detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyblockseis.threshold.SNR_detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply SNR detection to CWT</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -143,17 +142,11 @@
 <li><p><strong>snr_lowerbound</strong> (<em>float</em>) – noise level lower bound in percent.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return M_new</dt>
-<dd class="field-even"><p>mean of noise model.</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the updated mean and standard deviation of the noise model.</p>
 </dd>
-<dt class="field-odd">Rtype M_new</dt>
-<dd class="field-odd"><p>standard deviation of noise model.</p>
-</dd>
-<dt class="field-even">Return S</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
-</dd>
-<dt class="field-odd">Rtype S</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -173,7 +166,7 @@
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

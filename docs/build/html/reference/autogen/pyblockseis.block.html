@@ -5,16 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyblockseis.block &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyblockseis.block.Block" href="pyblockseis.block.Block.html" />
+    <link rel="next" title="pyblockseis.block.read" href="pyblockseis.block.read.html" />
     <link rel="prev" title="API Reference" href="../api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -81,7 +80,9 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">pyblockseis.block</a></li>
+<li><a class="reference internal" href="#">pyblockseis.block</a><ul>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -95,7 +96,7 @@
     </a>
   </li>
   <li>
-    <a href="pyblockseis.block.Block.html" title="Next Chapter: pyblockseis.block.Block"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pyblockseis.b... &raquo;</span>
+    <a href="pyblockseis.block.read.html" title="Next Chapter: pyblockseis.block.read"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pyblockseis.b... &raquo;</span>
     </a>
   </li>
               
@@ -131,6 +132,19 @@
       
   <div class="section" id="module-pyblockseis.block">
 <span id="pyblockseis-block"></span><h1>pyblockseis.block<a class="headerlink" href="#module-pyblockseis.block" title="Permalink to this headline">¶</a></h1>
+<p>Core module for pyBlockSeis</p>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.read.html#pyblockseis.block.read" title="pyblockseis.block.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
+<td><p>Read waveform files and processing parameters into a pyBlockSeis Block object</p></td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Classes</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -139,13 +153,10 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Block.html#pyblockseis.block.Block" title="pyblockseis.block.Block"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Block</span></code></a></p></td>
-<td><p>Block Choice Seismic Analysis in Python</p></td>
+<td><p>Root object for the time series and CWT</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.block.Parameter.html#pyblockseis.block.Parameter" title="pyblockseis.block.Parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Parameter</span></code></a></p></td>
-<td><p>A container for parameters required to set up and run the denoiser.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.block.Wavelet.html#pyblockseis.block.Wavelet" title="pyblockseis.block.Wavelet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wavelet</span></code></a></p></td>
-<td><p>Object containing outputs from CWT operations</p></td>
+<td><p>A container of parameters required to run <a class="reference internal" href="pyblockseis.block.Block.html#pyblockseis.block.Block" title="pyblockseis.block.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -164,7 +175,7 @@
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

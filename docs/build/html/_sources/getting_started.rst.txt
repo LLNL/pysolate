@@ -7,12 +7,14 @@ Getting started
 
 Requirements
 ------------
+* ObsPy and its dependencies
 
 Installation
 ------------
 
 Usage
 -----
+Refer to the notebook tutorials.
 
 Acknowledgements
 ----------------

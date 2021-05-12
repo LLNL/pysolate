@@ -5,13 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Documentation &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting started" href="getting_started.html" />
@@ -126,8 +125,8 @@
     <div class="body col-md-12 content" role="main">
       
   <h1 class="card-title">pyBlockSeis<br>
-<small>Block Choice Seismic Analysis in Python</small></h1><p>pyBlockSeis is a tool for processing seismic data using continuous wavelet transform (CWT).
-The tool is based on the Matlab software Block Choice Seismic Analysis (BCseis, version 1.1)
+<small>Block Choice Seismic Analysis in Python</small></h1><p>pyBlockSeis is a tool for processing seismic data using the continuous wavelet transform (CWT).
+The tool is adapted from the Matlab software Block Choice Seismic Analysis (BCseis, version 1.1)
 by Charles A. Langston and S. Mostafa Mousavi.</p>
 <p><strong>Download documentation</strong>: <a class="reference external" href="pyblockseis.pdf">PDF Version</a></p>
 <div class="section" id="documentation">
@@ -145,9 +144,13 @@ by Charles A. Langston and S. Mostafa Mousavi.</p>
 <li class="toctree-l1"><a class="reference internal" href="reference/api.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/api.html#core-modules">Core Modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/autogen/pyblockseis.block.html">pyblockseis.block</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.block.read.html">pyblockseis.block.read</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.block.Block.html">pyblockseis.block.Block</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.block.Parameter.html">pyblockseis.block.Parameter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.block.Wavelet.html">pyblockseis.block.Wavelet</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/autogen/pyblockseis.waveforms.html">pyblockseis.waveforms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.waveforms.Waveforms.html">pyblockseis.waveforms.Waveforms</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="reference/autogen/pyblockseis.wavelet.html">pyblockseis.wavelet</a><ul>
@@ -156,6 +159,8 @@ by Charles A. Langston and S. Mostafa Mousavi.</p>
 <li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.wavelet.inverse_cwt.html">pyblockseis.wavelet.inverse_cwt</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.wavelet.wfiltfn.html">pyblockseis.wavelet.wfiltfn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.wavelet.wfilth.html">pyblockseis.wavelet.wfilth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.wavelet.Wavelet.html">pyblockseis.wavelet.Wavelet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/autogen/pyblockseis.wavelet.WaveletCollection.html">pyblockseis.wavelet.WaveletCollection</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="reference/autogen/pyblockseis.threshold.html">pyblockseis.threshold</a><ul>
@@ -199,7 +204,7 @@ by Charles A. Langston and S. Mostafa Mousavi.</p>
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

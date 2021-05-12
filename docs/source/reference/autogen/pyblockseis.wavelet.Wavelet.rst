@@ -1,7 +1,7 @@
-pyblockseis.block.Wavelet
-=========================
+pyblockseis.wavelet.Wavelet
+===========================
 
-.. currentmodule:: pyblockseis.block
+.. currentmodule:: pyblockseis.wavelet
 
 .. autoclass:: Wavelet
    :show-inheritance:
@@ -17,6 +17,9 @@ pyblockseis.block.Wavelet
 
    
    
+   
+   
+      ~Wavelet.get_id
    
    
    

@@ -5,16 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyblockseis.block.Block.reconstruct &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="pyblockseis.block.Block.refresh_cwt_icwt" href="pyblockseis.block.Block.refresh_cwt_icwt.html" />
+    <link rel="next" title="pyblockseis.block.Block.run" href="pyblockseis.block.Block.run.html" />
     <link rel="prev" title="pyblockseis.block.Block.plot" href="pyblockseis.block.Block.plot.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -95,7 +94,7 @@
     </a>
   </li>
   <li>
-    <a href="pyblockseis.block.Block.refresh_cwt_icwt.html" title="Next Chapter: pyblockseis.block.Block.refresh_cwt_icwt"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pyblockseis.b... &raquo;</span>
+    <a href="pyblockseis.block.Block.run.html" title="Next Chapter: pyblockseis.block.Block.run"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pyblockseis.b... &raquo;</span>
     </a>
   </li>
               
@@ -133,8 +132,15 @@
 <h1>pyblockseis.block.Block.reconstruct<a class="headerlink" href="#pyblockseis-block-block-reconstruct" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt id="pyblockseis.block.Block.reconstruct">
-<code class="sig-prename descclassname">Block.</code><code class="sig-name descname">reconstruct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wavelet_function</span></em>, <em class="sig-param"><span class="n">trace_id</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/block.html#Block.reconstruct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyblockseis.block.Block.reconstruct" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">Block.</span></code><code class="sig-name descname"><span class="pre">reconstruct</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/block.html#Block.reconstruct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyblockseis.block.Block.reconstruct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reconstruct time series</p>
+<p>A function that performs the inverse continuous wavelet transform
+to reconstruct the time series from the wavelet coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tag</strong> – time series to reconstruct.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -152,7 +158,7 @@
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

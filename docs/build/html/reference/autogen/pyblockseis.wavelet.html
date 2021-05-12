@@ -5,17 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyblockseis.wavelet &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyblockseis.wavelet.blockbandpass" href="pyblockseis.wavelet.blockbandpass.html" />
-    <link rel="prev" title="pyblockseis.block.Wavelet" href="pyblockseis.block.Wavelet.html" />
+    <link rel="prev" title="pyblockseis.waveforms.Waveforms.add_waveform" href="pyblockseis.waveforms.Waveforms.add_waveform.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -81,7 +80,9 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">pyblockseis.wavelet</a></li>
+<li><a class="reference internal" href="#">pyblockseis.wavelet</a><ul>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -91,7 +92,7 @@
               
                 
   <li>
-    <a href="pyblockseis.block.Wavelet.html" title="Previous Chapter: pyblockseis.block.Wavelet"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pyblockseis.b...</span>
+    <a href="pyblockseis.waveforms.Waveforms.add_waveform.html" title="Previous Chapter: pyblockseis.waveforms.Waveforms.add_waveform"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pyblockseis.w...</span>
     </a>
   </li>
   <li>
@@ -131,6 +132,7 @@
       
   <div class="section" id="module-pyblockseis.wavelet">
 <span id="pyblockseis-wavelet"></span><h1>pyblockseis.wavelet<a class="headerlink" href="#module-pyblockseis.wavelet" title="Permalink to this headline">¶</a></h1>
+<p>Routines for handling the wavelet transform</p>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -139,19 +141,34 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.wavelet.blockbandpass.html#pyblockseis.wavelet.blockbandpass" title="pyblockseis.wavelet.blockbandpass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blockbandpass</span></code></a></p></td>
-<td><p>Apply a band reject filter to modify the wavelet coefficients over a scale bandpass.</p></td>
+<td><p>Apply a band reject filter to modify the wavelet coefficients over a scale bandpass</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.wavelet.cwt.html#pyblockseis.wavelet.cwt" title="pyblockseis.wavelet.cwt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cwt</span></code></a></p></td>
-<td><p>Continuous wavelet transform using the wavelet function.</p></td>
+<td><p>Continuous wavelet transform using the wavelet function</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.wavelet.inverse_cwt.html#pyblockseis.wavelet.inverse_cwt" title="pyblockseis.wavelet.inverse_cwt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_cwt</span></code></a></p></td>
-<td><p>Inverse continuous wavelet tranform/</p></td>
+<td><p>Inverse continuous wavelet tranform</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.wavelet.wfiltfn.html#pyblockseis.wavelet.wfiltfn" title="pyblockseis.wavelet.wfiltfn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wfiltfn</span></code></a></p></td>
-<td><p>Wavelet transform function of the wavelet filter in fourier domain.</p></td>
+<td><p>Wavelet transform function of the wavelet filter in fourier domain</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.wavelet.wfilth.html#pyblockseis.wavelet.wfilth" title="pyblockseis.wavelet.wfilth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wfilth</span></code></a></p></td>
-<td><p>Fast fourier transform of the wavelet function.</p></td>
+<td><p>Fast fourier transform of the wavelet function</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="pyblockseis.wavelet.Wavelet.html#pyblockseis.wavelet.Wavelet" title="pyblockseis.wavelet.Wavelet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wavelet</span></code></a></p></td>
+<td><p>One dimensional continues wavelet transform of a time series</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="pyblockseis.wavelet.WaveletCollection.html#pyblockseis.wavelet.WaveletCollection" title="pyblockseis.wavelet.WaveletCollection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WaveletCollection</span></code></a></p></td>
+<td><p>A collection of wavelet objects</p></td>
 </tr>
 </tbody>
 </table>
@@ -170,7 +187,7 @@
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

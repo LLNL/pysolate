@@ -1,6 +1,6 @@
-pyblockseis.block.Block.call\_noise\_model
+pyblockseis.block.Block.get\_station\_list
 ==========================================
 
 .. currentmodule:: pyblockseis.block
 
-.. automethod:: Block.call_noise_model
+.. automethod:: Block.get_station_list

@@ -19,16 +19,13 @@ pyblockseis.block.Block
    
    
    
-      ~Block.apply_bandpass_blocking
+      ~Block.get_station_list
    
    
-      ~Block.apply_thresholding
+      ~Block.get_waveforms
    
    
-      ~Block.call_cwt
-   
-   
-      ~Block.call_noise_model
+      ~Block.get_wavelets
    
    
       ~Block.plot
@@ -37,23 +34,22 @@ pyblockseis.block.Block
       ~Block.reconstruct
    
    
-      ~Block.refresh_cwt_icwt
-   
-   
-      ~Block.refresh_noise_model
-   
-   
       ~Block.run
    
    
-      ~Block.run_all
-   
-   
-      ~Block.update_run
+      ~Block.write
    
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+      :toctree: .
+   
+      ~Block.event
+      ~Block.tags
    
    

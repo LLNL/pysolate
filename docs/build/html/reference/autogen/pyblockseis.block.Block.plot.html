@@ -5,17 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pyblockseis.block.Block.plot &#8212; pyblockseis 0.1.dev documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="pyblockseis.block.Block.reconstruct" href="pyblockseis.block.Block.reconstruct.html" />
-    <link rel="prev" title="pyblockseis.block.Block.call_noise_model" href="pyblockseis.block.Block.call_noise_model.html" />
+    <link rel="prev" title="pyblockseis.block.Block.get_wavelets" href="pyblockseis.block.Block.get_wavelets.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -91,7 +90,7 @@
               
                 
   <li>
-    <a href="pyblockseis.block.Block.call_noise_model.html" title="Previous Chapter: pyblockseis.block.Block.call_noise_model"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pyblockseis.b...</span>
+    <a href="pyblockseis.block.Block.get_wavelets.html" title="Previous Chapter: pyblockseis.block.Block.get_wavelets"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pyblockseis.b...</span>
     </a>
   </li>
   <li>
@@ -133,13 +132,27 @@
 <h1>pyblockseis.block.Block.plot<a class="headerlink" href="#pyblockseis-block-block-plot" title="Permalink to this headline">¶</a></h1>
 <dl class="py method">
 <dt id="pyblockseis.block.Block.plot">
-<code class="sig-prename descclassname">Block.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wavelet_function</span></em>, <em class="sig-param"><span class="n">trace_id</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/block.html#Block.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyblockseis.block.Block.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot time-frequency representation (TFR) of a single time series.</p>
+<code class="sig-prename descclassname"><span class="pre">Block.</span></code><code class="sig-name descname"><span class="pre">plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyblockseis/block.html#Block.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyblockseis.block.Block.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the time-frequency representation, or scalogram, of the current
+pyblockseis Block object</p>
+<p>Plot the scalograms for all traces in the object. Alternatively,
+specific traces can be selected that matches the given station criteria.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>trace_id</strong> (<em>int</em>) – time series to plot.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – processed data to plot.</p></li>
+<li><p><strong>network</strong> (<em>str</em>) – network code.</p></li>
+<li><p><strong>station</strong> (<em>str</em>) – station code.</p></li>
+<li><p><strong>location</strong> (<em>str</em>) – location code.</p></li>
+<li><p><strong>channel</strong> (<em>str</em>) – channel code.</p></li>
+<li><p><strong>component</strong> (<em>str</em>) – component code.</p></li>
+</ul>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">block</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;noise_removed&quot;</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="s2">&quot;BK&quot;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;HH*&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -157,7 +170,7 @@
     </p>
     <p>
         &copy; Copyright 2021, Lawrence Livermore National Security, LLC.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>

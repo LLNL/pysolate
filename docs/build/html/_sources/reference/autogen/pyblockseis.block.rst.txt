@@ -6,6 +6,15 @@
 
    
    
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      read
+   
    
 
    
@@ -20,7 +29,6 @@
    
       Block
       Parameter
-      Wavelet
    
    
 

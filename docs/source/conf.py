@@ -52,6 +52,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
+    'sphinx_rtd_theme',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -80,7 +81,7 @@ autosummary_generate = glob.glob("reference" + os.sep + "*.rst")
 # 'show-inheritance'.
 autodoc_default_flags = ['show-inheritance']
 
-#T his value selects if automatically documented members are sorted alphabetical (value 'alphabetical'),
+#This value selects if automatically documented members are sorted alphabetical (value 'alphabetical'),
 # by member type (value 'groupwise') or by source order (value 'bysource').
 # The default is alphabetical.
 autodoc_member_order = "bysource"
@@ -130,7 +131,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".

@@ -17,5 +17,6 @@ Core Modules
    :nosignatures:
 
    pyblockseis.block
+   pyblockseis.waveforms
    pyblockseis.wavelet
    pyblockseis.threshold
