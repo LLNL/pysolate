@@ -138,7 +138,7 @@ class Parameter(object):
     :param bandpass_blocking: Default value ``True`` will apply a band rejection filter where
         wavelet coefficients are modified over a scale bandpass.
     :type bandpass_blocking: bool
-    :param scale_min: minimum time scale for bandpass blocking. Default is ``0``.
+    :param scale_min: minimum time scale for bandpass blocking. Default is ``1``.
     :type scale_min: float
     :param scale_max: maximum time scale for bandpass blocking. Default is ``200``.
     :type scale_max: float
@@ -766,10 +766,10 @@ class Block(object):
 
             fig = plt.figure(figsize=(10,6.5))
             ax1 = fig.add_subplot(2,1,1)
-            extent = [min(times), max(times), min(y_axis), max(y_axis)]
+            extent = [min(times), max(times), max(y_axis), min(y_axis)]
             ax1.imshow(abs(wave.coefs), extent=extent, aspect="auto")
             ax1.set_xlim([np.min(times), np.max(times)])
-            ax1.set_ylim([np.min(y_axis), np.max(y_axis)])
+            ax1.set_ylim([np.max(y_axis), np.min(y_axis)])
             ax1.set_ylabel("Scale [log10(s)]")
             ax1.set_title("Scalogram: %s | %s"%(tr.id, tag))
 
