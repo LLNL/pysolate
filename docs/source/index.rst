@@ -4,11 +4,8 @@
    <h1 class="card-title">pyBlockSeis<br>
    <small>Block Choice Seismic Analysis in Python</small></h1>
 
-pyBlockSeis is a tool for processing seismic data using the continuous wavelet transform (CWT).
-The tool is adapted from the Matlab software Block Choice Seismic Analysis (BCseis, version 1.1)
-by Charles A. Langston and S. Mostafa Mousavi.
-
-**Download documentation**: `PDF Version <pyblockseis.pdf>`__
+pyBlockSeis is a Python tool for processing seismic data using the
+continuous wavelet transform (CWT).
 
 Documentation
 -------------
@@ -18,8 +15,6 @@ Documentation
 
    getting_started
    reference/api
-
-
 
 Indices and tables
 ------------------

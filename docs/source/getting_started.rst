@@ -14,12 +14,15 @@ Installation
 
 Usage
 -----
-Refer to the notebook tutorials.
+* Refer to the notebook tutorials.
 
 Acknowledgements
 ----------------
-Forward and inverse CWTs functions based on the 
-[Synchrosqueezing Toolbox](https://github.com/ebrevdo/synchrosqueezing) by Eugene Brevdo and Gaurav Thakur.
+* The tool is adapted from the Matlab software Block Choice Seismic Analysis
+  (BCseis, version 1.1) by Charles A. Langston and S. Mostafa Mousavi.
+* Forward and inverse CWTs functions based on the 
+  `Synchrosqueezing Toolbox <https://github.com/ebrevdo/synchrosqueezing>`_
+  by Eugene Brevdo and Gaurav Thakur.
 
 License
 -------
