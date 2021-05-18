@@ -59,11 +59,12 @@ var/
 *.egg
 
 # Sphinx documentation
-#docs/build/
+docs/build/
 docs/_exclude/
 docs/reference/autogen
 
 # ipython notebooks
 .ipynb_checkpoints
-
 .idea
+
+tmp/
