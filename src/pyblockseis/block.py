@@ -686,7 +686,15 @@ class Block(object):
                 else:
                     if filename is None:
                         for tr in st:
-                            filename = "%s.%s"%(tr.id, format)
+                            if len(tr.stats.network) > 0:
+                                filename = "%s.%s"%(tr.id, format)
+                            else:
+                                filename = "%s.%s.%s.%s"%(
+                                    tr.stats.station,
+                                    tr.stats.location,
+                                    tr.stats.channel,
+                                    format
+                                )
                             tr.write(filename, format=format)
                     else:
                         st.write(filename, format=format)
@@ -848,7 +856,14 @@ class Block(object):
 def _write_waveforms_npz(st, filename):
     if filename is None:
         for tr in st:
-            filename = tr.id + ".npz"
+            if len(tr.stats.network) > 0:
+                filename = tr.id + ".npz"
+            else:
+                filename = "%s.%s.%s.npz" % (
+                    tr.stats.station,
+                    tr.stats.location,
+                    tr.stats.channel,
+                )
             np.savez(filename, times=tr.times(), data=tr.data)
     else:
         if isinstance(filename, str):
@@ -865,6 +880,8 @@ def _write_wavelets_npz(waves, filename):
     if filename is None:
         for w in waves:
             filename = "%s.cwt.npz"%w.get_id()
+            if filename.startswith("."):
+                filename = filename[1:]
             np.savez(filename, scales=w.scales, coefs=w.coefs)
     else:
         if isinstance(filename, str):
