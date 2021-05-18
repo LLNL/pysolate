@@ -1,0 +1,876 @@
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/TPH.SHR
+SAC>  rtr
+ Slope and standard deviation are: 3.6055e-08 8.1464e-07
+ Intercept and standard deviation are: 0.0002568 0.00013654
+ Data standard deviation is: 0.010014
+ Data correlation coefficient is: 0.00034405
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for TPH, SHR.
+
+Station (TPH), Channel (SHR)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -9.7277e-10 8.1533e-06
+ Intercept and standard deviation are: 6.2885e-08 0.0013666
+ Data standard deviation is: 0.10023
+ Data correlation coefficient is: 9.2748e-07
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/TPH.SHR
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/TPH.LHT
+SAC>  rtr
+ Slope and standard deviation are: 2.0716e-08 9.3939e-07
+ Intercept and standard deviation are: -6.8933e-05 0.00015745
+ Data standard deviation is: 0.011548
+ Data correlation coefficient is: 0.00017143
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for TPH, LHT.
+
+Station (TPH), Channel (LHT)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 1.7905e-08 6.8299e-06
+ Intercept and standard deviation are: -1.5228e-06 0.0011447
+ Data standard deviation is: 0.083958
+ Data correlation coefficient is: 2.0379e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/TPH.LHT
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/TPH.SHZ
+SAC>  rtr
+ Slope and standard deviation are: 1.6735e-08 5.8107e-07
+ Intercept and standard deviation are: -0.00013637 9.7393e-05
+ Data standard deviation is: 0.007143
+ Data correlation coefficient is: 0.00022388
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for TPH, SHZ.
+
+Station (TPH), Channel (SHZ)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 4.5624e-09 6.1965e-06
+ Intercept and standard deviation are: -3.8284e-07 0.0010386
+ Data standard deviation is: 0.076172
+ Data correlation coefficient is: 5.7238e-06
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/TPH.SHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/TPH.LHZ
+SAC>  rtr
+ Slope and standard deviation are: -4.3132e-08 9.7451e-07
+ Intercept and standard deviation are: 1.0011e-05 0.00016334
+ Data standard deviation is: 0.011979
+ Data correlation coefficient is: 0.00034406
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for TPH, LHZ.
+
+Station (TPH), Channel (LHZ)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -3.5823e-08 6.3664e-06
+ Intercept and standard deviation are: 3.0149e-06 0.0010671
+ Data standard deviation is: 0.078261
+ Data correlation coefficient is: 4.3742e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/TPH.LHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/TPH.LHR
+SAC>  rtr
+ Slope and standard deviation are: -3.3779e-07 1.3697e-06
+ Intercept and standard deviation are: 0.00021897 0.00022958
+ Data standard deviation is: 0.016838
+ Data correlation coefficient is: 0.0019171
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for TPH, LHR.
+
+Station (TPH), Channel (LHR)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 1.3153e-08 8.5856e-06
+ Intercept and standard deviation are: -1.069e-06 0.001439
+ Data standard deviation is: 0.10554
+ Data correlation coefficient is: 1.1909e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/TPH.LHR
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DAC.LHZ
+SAC>  rtr
+ Slope and standard deviation are: -6.0074e-09 3.2044e-07
+ Intercept and standard deviation are: 2.6287e-06 5.3457e-05
+ Data standard deviation is: 0.0039391
+ Data correlation coefficient is: 0.00014573
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1960153.00/1960.153.00.DAC.LHZ.--.resp, DAC, LHZ...
+
+Station (DAC), Channel (LHZ)
+	Response appears to be Un-Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -2.0112 320.44
+ Intercept and standard deviation are: 172.42 53456
+ Data standard deviation is: 3.9391e+06
+ Data correlation coefficient is: 4.8789e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DAC.LHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DAC.LHT
+SAC>  rtr
+ Slope and standard deviation are: 5.8347e-09 3.3177e-07
+ Intercept and standard deviation are: -3.5448e-05 5.5346e-05
+ Data standard deviation is: 0.0040784
+ Data correlation coefficient is: 0.00013671
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1981001.00/1981.001.00.DAC.LHT.--.resp, DAC, LHT...
+
+Station (DAC), Channel (LHT)
+	Response appears to be Un-Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -1.033 331.77
+ Intercept and standard deviation are: 347.35 55346
+ Data standard deviation is: 4.0784e+06
+ Data correlation coefficient is: 2.4204e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DAC.LHT
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DAC.LHR
+SAC>  rtr
+ Slope and standard deviation are: 3.0502e-09 3.3638e-07
+ Intercept and standard deviation are: -2.046e-06 5.6115e-05
+ Data standard deviation is: 0.0041351
+ Data correlation coefficient is: 7.049e-05
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1981001.00/1981.001.00.DAC.LHR.--.resp, DAC, LHR...
+
+Station (DAC), Channel (LHR)
+	Response appears to be Un-Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 1.0688 336.38
+ Intercept and standard deviation are: -69.148 56116
+ Data standard deviation is: 4.1351e+06
+ Data correlation coefficient is: 2.47e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DAC.LHR
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DAC.SHZ
+SAC>  rtr
+ Slope and standard deviation are: 4.7568e-09 1.653e-07
+ Intercept and standard deviation are: -6.9475e-06 2.7575e-05
+ Data standard deviation is: 0.002032
+ Data correlation coefficient is: 0.00022371
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1960153.00/1960.153.00.DAC.SHZ.--.resp, DAC, SHZ...
+
+Station (DAC), Channel (SHZ)
+	Response appears to be Un-Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -0.74716 165.3
+ Intercept and standard deviation are: 149.04 27575
+ Data standard deviation is: 2.032e+06
+ Data correlation coefficient is: 3.5138e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DAC.SHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DAC.SHR
+SAC>  rtr
+ Slope and standard deviation are: 1.365e-10 1.8271e-07
+ Intercept and standard deviation are: -2.8421e-05 3.0479e-05
+ Data standard deviation is: 0.002246
+ Data correlation coefficient is: 5.8077e-06
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1991001.00/1991.001.00.DAC.SHR.--.resp, DAC, SHR...
+
+Station (DAC), Channel (SHR)
+	Response appears to be Un-Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 0.9557 182.7
+ Intercept and standard deviation are: -99.829 30479
+ Data standard deviation is: 2.2459e+06
+ Data correlation coefficient is: 4.0664e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DAC.SHR
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/LDS.LHT
+SAC>  rtr
+ Slope and standard deviation are: 1.2931e-08 6.7246e-07
+ Intercept and standard deviation are: 0.00014894 0.00011148
+ Data standard deviation is: 0.0082694
+ Data correlation coefficient is: 0.00014947
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for LDS, LHT.
+
+Station (LDS), Channel (LHT)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 2.2786e-08 4.3547e-06
+ Intercept and standard deviation are: -1.8682e-06 0.00072196
+ Data standard deviation is: 0.053551
+ Data correlation coefficient is: 4.067e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/LDS.LHT
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/LDS.LHZ
+SAC>  rtr
+ Slope and standard deviation are: 3.2898e-08 4.3555e-07
+ Intercept and standard deviation are: 3.196e-05 7.2208e-05
+ Data standard deviation is: 0.0053561
+ Data correlation coefficient is: 0.00058709
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for LDS, LHZ.
+
+Station (LDS), Channel (LHZ)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 2.6824e-09 3.0322e-06
+ Intercept and standard deviation are: -1.8649e-07 0.00050269
+ Data standard deviation is: 0.037288
+ Data correlation coefficient is: 6.8762e-06
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/LDS.LHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/LDS.SHZ
+SAC>  rtr
+ Slope and standard deviation are: -1.6258e-09 3.4964e-07
+ Intercept and standard deviation are: 0.00071195 5.7966e-05
+ Data standard deviation is: 0.0042996
+ Data correlation coefficient is: 3.6143e-05
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for LDS, SHZ.
+
+Station (LDS), Channel (SHZ)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 2.8411e-10 3.1656e-06
+ Intercept and standard deviation are: 4.5651e-09 0.00052481
+ Data standard deviation is: 0.038928
+ Data correlation coefficient is: 6.9759e-07
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/LDS.SHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/LDS.LHR
+SAC>  rtr
+ Slope and standard deviation are: -6.8884e-08 7.824e-07
+ Intercept and standard deviation are: -0.0015047 0.00012971
+ Data standard deviation is: 0.0096214
+ Data correlation coefficient is: 0.00068433
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for LDS, LHR.
+
+Station (LDS), Channel (LHR)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 2.868e-08 5.0538e-06
+ Intercept and standard deviation are: -2.294e-06 0.00083785
+ Data standard deviation is: 0.062148
+ Data correlation coefficient is: 4.4109e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/LDS.LHR
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/MNV.v
+SAC>  rtr
+ Slope and standard deviation are: -0.097068 1.429
+ Intercept and standard deviation are: 52.214 262.61
+ Data standard deviation is: 27521
+ Data correlation coefficient is: 0.00048973
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting polezero response for MNV     , v...
+
+Station (MNV), Channel (v)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -1.1477 1.4497
+ Intercept and standard deviation are: 538.07 266.41
+ Data standard deviation is: 27919
+ Data correlation coefficient is: 0.0057075
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/MNV.v
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/MNV.n
+SAC>  rtr
+ Slope and standard deviation are: -0.069821 1.2272
+ Intercept and standard deviation are: 49.755 225.53
+ Data standard deviation is: 23634
+ Data correlation coefficient is: 0.00041019
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting polezero response for MNV     , n...
+
+Station (MNV), Channel (n)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -1.4976 1.2925
+ Intercept and standard deviation are: 588.88 237.51
+ Data standard deviation is: 24891
+ Data correlation coefficient is: 0.0083539
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/MNV.n
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/MNV.e
+SAC>  rtr
+ Slope and standard deviation are: 0.089247 1.8005
+ Intercept and standard deviation are: 14.728 330.88
+ Data standard deviation is: 34675
+ Data correlation coefficient is: 0.00035737
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting polezero response for MNV     , e...
+
+Station (MNV), Channel (e)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -0.17841 1.8993
+ Intercept and standard deviation are: 573.13 349.02
+ Data standard deviation is: 36576
+ Data correlation coefficient is: 0.00067727
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/MNV.e
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/BMN.LHT
+SAC>  rtr
+ Slope and standard deviation are: 1.9305e-08 1.7208e-07
+ Intercept and standard deviation are: -9.4771e-06 2.8631e-05
+ Data standard deviation is: 0.0021154
+ Data correlation coefficient is: 0.00087209
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for BMN, LHT.
+
+Station (BMN), Channel (LHT)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 2.6486e-08 9.6515e-07
+ Intercept and standard deviation are: -2.1549e-06 0.00016058
+ Data standard deviation is: 0.011864
+ Data correlation coefficient is: 0.00021333
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/BMN.LHT
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/BMN.LHR
+SAC>  rtr
+ Slope and standard deviation are: -2.347e-08 1.8101e-07
+ Intercept and standard deviation are: -3.6721e-05 3.0116e-05
+ Data standard deviation is: 0.0022251
+ Data correlation coefficient is: 0.001008
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for BMN, LHR.
+
+Station (BMN), Channel (LHR)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 4.6343e-08 1.1516e-06
+ Intercept and standard deviation are: -3.7667e-06 0.0001916
+ Data standard deviation is: 0.014156
+ Data correlation coefficient is: 0.00031283
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/BMN.LHR
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/BMN.LHZ
+SAC>  rtr
+ Slope and standard deviation are: -1.9439e-08 1.4468e-07
+ Intercept and standard deviation are: -2.1073e-05 2.4072e-05
+ Data standard deviation is: 0.0017785
+ Data correlation coefficient is: 0.0010444
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for BMN, LHZ.
+
+Station (BMN), Channel (LHZ)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -1.4531e-08 9.4176e-07
+ Intercept and standard deviation are: 1.1596e-06 0.00015669
+ Data standard deviation is: 0.011577
+ Data correlation coefficient is: 0.00011995
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/BMN.LHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/BMN.SHZ
+SAC>  rtr
+ Slope and standard deviation are: -9.71e-10 5.7704e-08
+ Intercept and standard deviation are: -1.432e-08 9.6008e-06
+ Data standard deviation is: 0.00070935
+ Data correlation coefficient is: 0.00013081
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ WARNING: No response file found in database for BMN, SHZ.
+
+Station (BMN), Channel (SHZ)
+	Nominal Calper not set. Setting Nominal Calper to -999.000000 to match Wfdisc Calper
+	Sensor Calper not set. Setting Sensor Calper to 1.000000 to match Wfdisc Calper
+	Response appears to be Normalized.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 8.71e-10 6.7267e-07
+ Intercept and standard deviation are: -7.1167e-08 0.00011192
+ Data standard deviation is: 0.008269
+ Data correlation coefficient is: 1.0066e-05
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/BMN.SHZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/ELK.v
+SAC>  rtr
+ Slope and standard deviation are: 3.0301 0.70506
+ Intercept and standard deviation are: -270.02 129.57
+ Data standard deviation is: 13578
+ Data correlation coefficient is: 0.03097
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting polezero response for ELK     , v...
+
+Station (ELK), Channel (v)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -1.752 2.7871
+ Intercept and standard deviation are: -3735.3 512.17
+ Data standard deviation is: 53674
+ Data correlation coefficient is: 0.0045321
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/ELK.v
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/ELK.e
+SAC>  rtr
+ Slope and standard deviation are: 0.021443 0.5393
+ Intercept and standard deviation are: -1.1138 99.105
+ Data standard deviation is: 10386
+ Data correlation coefficient is: 0.00028666
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting polezero response for ELK     , e...
+
+Station (ELK), Channel (e)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 0.17642 0.54433
+ Intercept and standard deviation are: -77.234 100.03
+ Data standard deviation is: 10483
+ Data correlation coefficient is: 0.0023367
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/ELK.e
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/ELK.n
+SAC>  rtr
+ Slope and standard deviation are: -0.026856 0.65061
+ Intercept and standard deviation are: 13.989 119.56
+ Data standard deviation is: 12530
+ Data correlation coefficient is: 0.00029761
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting polezero response for ELK     , n...
+
+Station (ELK), Channel (n)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 0.3793 0.66753
+ Intercept and standard deviation are: 196.11 122.67
+ Data standard deviation is: 12855
+ Data correlation coefficient is: 0.0040967
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/ELK.n
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DUG.ELE
+SAC>  rtr
+ Slope and standard deviation are: 0.005898 0.0085479
+ Intercept and standard deviation are: -1.1719 1.8337
+ Data standard deviation is: 148.29
+ Data correlation coefficient is: 0.0037952
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/IRISDMC/UU/DUG/UU.DUG.ELE.2016.264.21.41.1404349.resp, DUG, ELE...
+
+Station (DUG), Channel (ELE)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 4.767e+08 1.3717e+06
+ Intercept and standard deviation are: -8.7767e+10 2.9426e+08
+ Data standard deviation is: 2.3796e+10
+ Data correlation coefficient is: 0
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DUG.ELE
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DUG.ELN
+SAC>  rtr
+ Slope and standard deviation are: 0.0095825 0.00965
+ Intercept and standard deviation are: -1.7372 2.0824
+ Data standard deviation is: 169.1
+ Data correlation coefficient is: 0.0054436
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/IRISDMC/UU/DUG/UU.DUG.ELN.2016.264.21.42.1404356.resp, DUG, ELN...
+
+Station (DUG), Channel (ELN)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 2.952e+08 1.1118e+06
+ Intercept and standard deviation are: -5.7961e+10 2.3992e+08
+ Data standard deviation is: 1.9482e+10
+ Data correlation coefficient is: 0
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DUG.ELN
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/DUG.ELZ
+SAC>  rtr
+ Slope and standard deviation are: 0.0044617 0.0047287
+ Intercept and standard deviation are: -0.50915 1.0216
+ Data standard deviation is: 83.018
+ Data correlation coefficient is: 0.0051691
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/IRISDMC/UU/DUG/UU.DUG.ELZ.2016.264.21.42.1404407.resp, DUG, ELZ...
+
+Station (DUG), Channel (ELZ)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 1.9524e+07 3.9752e+05
+ Intercept and standard deviation are: -4.0534e+09 8.588e+07
+ Data standard deviation is: 6.979e+09
+ Data correlation coefficient is: 0
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/DUG.ELZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/JLU.ELZ
+SAC>  rtr
+ Slope and standard deviation are: -0.036689 0.027913
+ Intercept and standard deviation are: -16.755 6.1802
+ Data standard deviation is: 510.76
+ Data correlation coefficient is: 0.0071022
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/IRISDMC/UU/JLU/UU.JLU.ELZ.2016.265.10.34.1708656.resp, JLU, ELZ...
+
+Station (JLU), Channel (ELZ)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: 4.0782e+08 5.1549e+06
+ Intercept and standard deviation are: -1.0299e+11 1.1414e+09
+ Data standard deviation is: 9.4327e+10
+ Data correlation coefficient is: 0
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/JLU.ELZ
+SAC>  quit
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> SAC>  read 578449/waveforms/HVU.ELZ
+SAC>  rtr
+ Slope and standard deviation are: -0.035056 0.028466
+ Intercept and standard deviation are: -17.646 6.3027
+ Data standard deviation is: 520.89
+ Data correlation coefficient is: 0.0066543
+SAC>  transfer from db to vel freqlim 0.001 0.005 10 20
+Connecting to database...
+ Extracting evresp response for /gnem/gnemd000/RESPONSES/IRISDMC/UU/HVU/UU.HVU.ELZ.2016.265.1.39.1495636.resp, HVU, ELZ...
+
+Station (HVU), Channel (ELZ)
+	Wfdisc Calper differs from Instrument Calper. Values are: Wfdisc Calper = 1.000000,   Instrument Calper = -1.000000
+	Un-resolvable problem.
+	Calper is not available. Cannot tell if response is normalized, so transfer function will be used without scaling.
+	Waveform appears to be unscaled.
+	Wfdisc calib value is (1.000000).
+	After multiplication by calratio of (1.000000), EffectiveCalib is (1.000000).
+	Waveform multiplied by 1.000000 after deconvolution.
+Disconnected from Oracle.
+SAC>  rtr
+ Slope and standard deviation are: -1.0741e+10 6.6419e+07
+ Intercept and standard deviation are: 1.9459e+12 1.4706e+10
+ Data standard deviation is: 1.2154e+12
+ Data correlation coefficient is: 0
+SAC>  rmean
+SAC>  div 1e7
+SAC>  write 578449/processed/HVU.ELZ
+SAC>  quit

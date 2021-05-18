@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2">
+  <eventParameters publicID="smi:local/50a85bc2-456c-47d4-994d-a27672a89488">
+    <event publicID="smi:local/01c1a1ec-7efd-4656-a404-a01a0b8162ca">
+      <origin publicID="smi:local/01c1a1ec-7efd-4656-a404-a01a0b8162ca">
+        <time>
+          <value>1981-09-04T15:00:00.100000Z</value>
+        </time>
+        <latitude>
+          <value>37.16</value>
+        </latitude>
+        <longitude>
+          <value>-116.06700000000001</value>
+        </longitude>
+        <depth>
+          <value>294.0</value>
+        </depth>
+        <type>hypocenter</type>
+        <creationInfo>
+          <author>Springer2002</author>
+          <version>0.0.1</version>
+        </creationInfo>
+      </origin>
+      <magnitude publicID="smi:local/01c1a1ec-7efd-4656-a404-a01a0b8162ca">
+        <mag>
+          <value>3.8</value>
+        </mag>
+        <type>ML</type>
+      </magnitude>
+    </event>
+  </eventParameters>
+</q:quakeml>

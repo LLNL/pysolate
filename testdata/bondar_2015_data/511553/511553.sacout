@@ -1,0 +1,69 @@
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd017/waveforms/1981/02/00511553/MNV_r_10338823.w
+/gnem/gnemd017/waveforms/1981/02/00511553/MNV_t_10338824.w
+/gnem/gnemd017/waveforms/1981/02/00511553/MNV_v_10338825.w
+  1 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  3 	sitechan    structs. 
+  4 	wftag       structs. 
+  3 	wfdisc      structs. 
+	-----  3 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 3
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd017/waveforms/1981/02/00511553/KNB_r_10338817.w
+/gnem/gnemd017/waveforms/1981/02/00511553/KNB_t_10338818.w
+/gnem/gnemd017/waveforms/1981/02/00511553/KNB_v_10338819.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  3 	sitechan    structs. 
+  5 	wftag       structs. 
+  3 	wfdisc      structs. 
+	-----  3 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 3
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd017/waveforms/1981/02/00511553/LAC_r_10338820.w
+/gnem/gnemd017/waveforms/1981/02/00511553/LAC_t_10338821.w
+/gnem/gnemd017/waveforms/1981/02/00511553/LAC_v_10338822.w
+  1 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  3 	sitechan    structs. 
+  4 	wftag       structs. 
+  3 	wfdisc      structs. 
+	-----  3 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 3
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd017/waveforms/1981/02/00511553/ELK_r_10338814.w
+/gnem/gnemd017/waveforms/1981/02/00511553/ELK_t_10338815.w
+/gnem/gnemd017/waveforms/1981/02/00511553/ELK_v_10338816.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  3 	sitechan    structs. 
+  5 	wftag       structs. 
+  3 	wfdisc      structs. 
+	-----  3 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 3
+SAC> SAC> 

@@ -1,0 +1,16 @@
+    839669 DAC       LHR      1981-01-01,00:00:00  1992-09-24,00:00:00  /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1981001.00   1981.001.00.DAC.LHR.--.resp                                      evresp 13-APR-16
+    839670 DAC       LHT      1981-01-01,00:00:00  1992-09-24,00:00:00  /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1981001.00   1981.001.00.DAC.LHT.--.resp                                      evresp 13-APR-16
+    839668 DAC       LHZ      1960-06-01,00:00:01  1996-12-22,23:59:59  /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1960153.00   1960.153.00.DAC.LHZ.--.resp                                      evresp 13-APR-16
+    839664 DAC       SHR      1960-06-01,00:00:01  1990-12-31,23:59:59  /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1991001.00   1991.001.00.DAC.SHR.--.resp                                      evresp 13-APR-16
+    839663 DAC       SHZ      1960-06-01,00:00:01  1990-12-31,23:59:59  /gnem/gnemd000/RESPONSES/REMAP/LB/DAC/1960153.00   1960.153.00.DAC.SHZ.--.resp                                      evresp 13-APR-16
+   1404349 DUG       ELE      1986-01-15,00:00:00  1987-08-16,23:59:59  /gnem/gnemd000/RESPONSES/IRISDMC/UU/DUG            UU.DUG.ELE.2016.264.21.41.1404349.resp                           evresp 20-SEP-16
+   1404356 DUG       ELN      1986-01-15,00:00:00  1987-08-16,23:59:59  /gnem/gnemd000/RESPONSES/IRISDMC/UU/DUG            UU.DUG.ELN.2016.264.21.42.1404356.resp                           evresp 20-SEP-16
+   1404407 DUG       ELZ      1986-01-15,00:00:00  1987-08-16,23:59:59  /gnem/gnemd000/RESPONSES/IRISDMC/UU/DUG            UU.DUG.ELZ.2016.264.21.42.1404407.resp                           evresp 20-SEP-16
+    175587 ELK       e        1983-10-27,00:00:00  1987-10-31,00:00:00  /gnem/gnemd000/RESPONSES/NTS/                      tf_14.pz                                                         sacpzf 31-AUG-00
+    175587 ELK       n        1983-10-27,00:00:00  1987-10-31,00:00:00  /gnem/gnemd000/RESPONSES/NTS/                      tf_14.pz                                                         sacpzf 31-AUG-00
+    175587 ELK       v        1983-10-27,00:00:00  1987-10-31,00:00:00  /gnem/gnemd000/RESPONSES/NTS/                      tf_14.pz                                                         sacpzf 31-AUG-00
+   1495636 HVU       ELZ      1987-05-04,00:00:00  1989-03-27,23:59:59  /gnem/gnemd000/RESPONSES/IRISDMC/UU/HVU            UU.HVU.ELZ.2016.265.1.39.1495636.resp                            evresp 20-SEP-16
+   1708656 JLU       ELZ      1986-08-01,00:00:00  1988-01-06,23:59:59  /gnem/gnemd000/RESPONSES/IRISDMC/UU/JLU            UU.JLU.ELZ.2016.265.10.34.1708656.resp                           evresp 21-SEP-16
+    175587 MNV       e        1983-09-07,00:00:00  1987-10-31,00:00:00  /gnem/gnemd000/RESPONSES/NTS/                      tf_14.pz                                                         sacpzf 31-AUG-00
+    175587 MNV       n        1983-09-07,00:00:00  1987-10-31,00:00:00  /gnem/gnemd000/RESPONSES/NTS/                      tf_14.pz                                                         sacpzf 31-AUG-00
+    175587 MNV       v        1983-09-07,00:00:00  1987-10-31,00:00:00  /gnem/gnemd000/RESPONSES/NTS/                      tf_14.pz                                                         sacpzf 31-AUG-00

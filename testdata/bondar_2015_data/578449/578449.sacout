@@ -1,0 +1,361 @@
+ SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/TPH_SHR_18498901.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/TPH_LHT_18498899.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/TPH_SHZ_18498902.w
+  1 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  2 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/TPH_LHZ_18498900.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/TPH_LHR_18498898.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/DAC_LHZ_18498891.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/DAC_LHT_18498890.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/DAC_LHR_18498889.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/DAC_SHZ_18498893.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  3 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/DAC_SHR_18498892.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/LDS_LHT_18498895.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/LDS_LHZ_18498896.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/LDS_SHZ_18498897.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  3 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/LDS_LHR_18498894.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd017/waveforms/1987/08/00578449/MNV_e_10339772.w
+/gnem/gnemd017/waveforms/1987/08/00578449/MNV_n_10339773.w
+/gnem/gnemd017/waveforms/1987/08/00578449/MNV_v_10339774.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  3 	sitechan    structs. 
+  5 	wftag       structs. 
+  3 	wfdisc      structs. 
+	-----  3 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 3
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/BMN_LHT_18498886.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/BMN_LHR_18498885.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/BMN_LHZ_18498887.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd000/waveforms/1987/08/00578449/BMN_SHZ_18498888.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  3 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd017/waveforms/1987/08/00578449/ELK_e_10339769.w
+/gnem/gnemd017/waveforms/1987/08/00578449/ELK_n_10339770.w
+/gnem/gnemd017/waveforms/1987/08/00578449/ELK_v_10339771.w
+  2 	arrival     structs. 
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  3 	sitechan    structs. 
+  5 	wftag       structs. 
+  3 	wfdisc      structs. 
+	-----  3 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 3
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd072/waveforms/1987/08/000578449/DUG_ELE_529835073.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd072/waveforms/1987/08/000578449/DUG_ELN_529835078.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd072/waveforms/1987/08/000578449/DUG_ELZ_529835081.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd072/waveforms/1987/08/000578449/JLU_ELZ_529835334.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC>  SEISMIC ANALYSIS CODE [11/03/2016 (Version 07.10.6)]
+ Copyright 2007 LLNL/LLNS under Contract DE-AC52-07NA27344
+
+SAC> /gnem/gnemd072/waveforms/1987/08/000578449/HVU_ELZ_529835292.w
+  1 	event       structs. 
+  1 	origin      structs. 
+  1 	site        structs. 
+  1 	sitechan    structs. 
+  1 	wftag       structs. 
+  1 	wfdisc      structs. 
+	-----  1 have Y data. 
+No UserData struct. 
+Disconnected from Oracle.
+Lines returned = 1
+SAC> SAC> 
