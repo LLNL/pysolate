@@ -14,7 +14,7 @@ Installation
 
 Documentation
 -------------
-Link to PDF version [here](docs/pyblockseis.pdf).
+Link to PDF version [here](pyblockseis.pdf).
 
 Acknowledgements
 ----------------
