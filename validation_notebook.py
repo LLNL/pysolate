@@ -25,30 +25,32 @@ import sys
 sys.path.append("src")
 
 import pyblockseis as bcs
-from obspy.core import read
-import matplotlib.pyplot as plt
 
 import timeit
 import numpy as np
+import matplotlib.pyplot as plt
+
+from obspy.core import read
 
 # +
 # Read example data from BCseis
 sacfile = "testdata/5014.YW.0.sp0011.DPZ"
 
 start = timeit.timeit()
-params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
+params = bcs.Parameter(block_threshold=1.0, scale_min=1.0, noise_threshold="hard", signal_threshold="hard")
 block = bcs.read(params=params, data=sacfile)
 print(block)
 
 # Run the denoiser
 block.run()
-end = timeit.timeit()
 
 # Plot results
 block.plot("input")
 block.plot("band_rejected")
 block.plot("noise_removed")
 block.plot("signal_removed")
+
+end = timeit.timeit()
 print("Run took %.4f seconds"%(end - start))
 # -
 
@@ -62,7 +64,7 @@ print(block.get_station_list())
 print(block.tags)
 
 # +
-# Compare noise model outputs
+# Noise model outputs
 plt.figure()
 plt.title("Noise model")
 
@@ -72,10 +74,10 @@ print("Noise model estimated from '%s' data."%tag)
 waves = block.get_wavelets(tag).select(network="YW", station="5014")
 
 # Plot figure
-plt.plot(waves[0].noise_model.P,"k",label="P-python")
-matP = np.loadtxt("testdata/_matlab/P.txt")
-plt.plot(matP,"r--",label="P-matlab")
-plt.plot(waves[0].noise_model.M,"g",label="mean-python")
+scales = np.log10(waves[0].scales)
+plt.plot(scales, waves[0].noise_model.M,"k",label="mean")
+plt.plot(scales, waves[0].noise_model.P,"g",label="threshold")
+plt.xlim([-2.5, 2.5])
 plt.legend()
 # -
 
@@ -165,7 +167,7 @@ block.plot("signal_removed")
 # #### Test ASDF format
 
 # +
-filename = "testdata/578449.h5"
+filename = "testdata/bondar_2015_data/578449.h5"
 
 params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
 
