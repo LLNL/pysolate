@@ -20,6 +20,7 @@ from scipy.integrate import quad
 from obspy.core.trace import Stats
 from obspy.core.util import AttribDict
 
+
 def _psihfn(xi,wave_type):
     return np.conj(wfiltfn(xi, wave_type))*wfiltfn(xi, wave_type)/xi
 
@@ -80,24 +81,23 @@ def wfiltfn(xi, wave_type):
     return np.array(psihfn)
 
 
-def cwt(time_series, wave_type, nvoices, dt):
+def cwt(trace, wave_type, nvoices):
     """
     Continuous wavelet transform using the wavelet function
 
-    :param time_series: input time series data.
+    :param trace: input time series data.
     :type time_series: list or :class:`numpy.ndarray`
     :param wave_type: wavelet function.
     :type wave_type: str
     :param nvoices: sampling of CWT in scale.
     :type nvoices: int
-    :param dt: sampling period.
-    :type dt: float
     :returns: the wavelet transform of shape (scales, time_series),
         and the length vector containing the associated scales.
     :rtype: (:class:`numpy.ndarray`, :class:`numpy.ndarray`)
     """
-    time_series = np.asarray(time_series)
-    n = len(time_series) # number of samples
+    time_series = trace.data
+    dt = trace.stats.delta
+    n = trace.stats.npts
     
     # Padding the signal
     N = int(2**(1+round(math.log2(len(time_series))+np.finfo(float).eps)))
@@ -131,7 +131,6 @@ def cwt(time_series, wave_type, nvoices, dt):
         
     # Output scales for graphing purposes, scale by dt
     scales = scales * dt
-    
     Wxout = Wx[:,n1+1:n1+n+1]
     
     return (Wxout, scales)

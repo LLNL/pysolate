@@ -9,8 +9,9 @@ Core module for pyBlockSeis
 """
 
 
-import numpy as np
 import pyasdf
+import numpy as np
+import concurrent.futures as cf
 from copy import deepcopy
 from obspy.core.event import Event, Catalog
 
@@ -22,6 +23,15 @@ import matplotlib.pyplot as plt
 
 TAG_OPTIONS = ["input", "band_rejected", "noise_removed", "signal_removed"]
 CUSTOM_ATTR = "wavelet"
+
+
+def _worker(function, values, wave_type, nvoices):
+    futures = []
+    with cf.ThreadPoolExecutor(max_workers=32) as executor:
+        for val in values:
+            futures.append(executor.submit(function, val, wave_type, nvoices))
+
+    return futures
 
 
 def read(params=None, **kwargs):
@@ -492,15 +502,15 @@ class Block(object):
         """
         Continues wavelet transform of waveform data
         """
+        st = self.waveforms.data[tag]
+        out = _worker(cwt, st, self.params.wave_type, self.params.nvoices)
         waves = []
-        for trace in self.waveforms.data[tag]:
-            wx, scales = cwt(
-                trace.data,
-                self.params.wave_type,
-                self.params.nvoices,
-                trace.stats.delta
-            )
+        for trace, f in zip(st, out):
+            wx, scales = f.result()
             waves.append(Wavelet(coefs=wx, scales=scales, headers=trace.stats))
+        #return [f.result() for f in futures]
+        #for (wx, scales), trace in zip(out, st):
+        #    waves.append(Wavelet(coefs=wx, scales=scales, headers=trace.stats))
 
         self.wavelets[tag] = WaveletCollection(wavelets=waves)
         self.current_tag = tag
@@ -578,12 +588,10 @@ class Block(object):
         else:
             st = self.waveforms.data[tag]
 
-        for wave, trace in zip(self.wavelets[tag], st):
-            trace.data = inverse_cwt(
-                wave.coefs,
-                self.params.wave_type,
-                self.params.nvoices,
-            )
+        coefs = [wave.coefs for wave in self.wavelets[tag]]
+        out = _worker(inverse_cwt, coefs, self.params.wave_type, self.params.nvoices)
+        for trace, f in zip(st, out):
+            trace.data = f.result()
 
         self.waveforms.data[tag] = st
 
