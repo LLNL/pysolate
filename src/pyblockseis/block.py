@@ -238,9 +238,9 @@ class Parameter(object):
         if key in self._types:
             if not isinstance(value, self._types[key]):
                 value = self._types[key](value)
-        else:
-            raise KeyError("'%s' is not supported."%key)
-                
+#        else:
+#            raise KeyError("'%s' is not supported."%key)
+
         # check methods
         if key in "wave_type":
             if value not in ("morlet","shannon","mhat","hhat"):
@@ -282,7 +282,7 @@ class Parameter(object):
             return ""
         f = "{0:>%d}: {1}\n"%i
         pretty_string = "".join([
-            f.format(key, str(getattr(self, key))) for key in keys
+            f.format(key, str(getattr(self, key))) for key in keys if key in self._defaults
         ])
         
         return pretty_string
@@ -540,6 +540,13 @@ class Block(object):
         """
         Construct noise model
         """
+        if hasattr(self.params, "external_noise_model"):
+            kwargs = {k:v for k, v in self.params.external_noise_model.items() }
+            self._get_external_noise_model(**kwargs)
+        else:
+            self._compute_noise_model()
+
+    def _compute_noise_model(self):
         for wave in self.wavelets[self.current_tag]:
             M, S, P = noise_model(
                 wave.coefs, # cwt coefficients used to estimate noise model
@@ -550,6 +557,18 @@ class Block(object):
                 self.params.snr_lowerbound,
                 self.params.snr_detection
             )
+            wave.noise_model.M = M
+            wave.noise_model.S = S
+            wave.noise_model.P = P
+
+    def _get_external_noise_model(self, M=None, S=None, P=None):
+        """
+        Pass a different noise model
+        """
+        if M is None or S is None or P is None:
+            raise ValueError("Invalid noise model parameter(s): M, S and/or P.")
+
+        for wave in self.wavelets[self.current_tag]:
             wave.noise_model.M = M
             wave.noise_model.S = S
             wave.noise_model.P = P
