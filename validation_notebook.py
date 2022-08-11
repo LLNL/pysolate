@@ -6,11 +6,11 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.11.0
+#       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: obspy
+#     display_name: Python 3 (ipykernel)
 #     language: python
-#     name: obspy
+#     name: python3
 # ---
 
 # ### pyBlockSeis - Block Choice Seismic Analysis in Python
@@ -24,7 +24,7 @@
 import sys
 sys.path.append("src")
 
-import pyblockseis as bcs
+import pysolate as bcs
 
 import timeit
 import numpy as np
@@ -36,7 +36,7 @@ from obspy.core import read
 # Read example data from BCseis
 sacfile = "testdata/5014.YW.0.sp0011.DPZ"
 
-start = timeit.timeit()
+start = timeit.default_timer()
 params = bcs.Parameter(block_threshold=1.0, scale_min=1.0, noise_threshold="hard", signal_threshold="hard")
 block = bcs.read(params=params, data=sacfile)
 print(block)
@@ -50,7 +50,7 @@ block.plot("band_rejected")
 block.plot("noise_removed")
 block.plot("signal_removed")
 
-end = timeit.timeit()
+end = timeit.default_timer()
 print("Run took %.4f seconds"%(end - start))
 # -
 
@@ -164,10 +164,45 @@ print("Available tags:")
 print(block.tags)
 block.plot("signal_removed")
 
+# +
+# Text external noise model
+noise_model = block.get_wavelets(block.noise_model_tag)[0].noise_model
+
+sacfile = "testdata/5014.YW.0.sp0012.DPZ"
+params = bcs.Parameter(bandpass_blocking=False, noise_threshold="soft", signal_threshold="soft",
+    external_noise_model=noise_model)
+block = bcs.read(params=params, data=sacfile)
+print(block)
+
+# Run the denoiser
+block.run()
+
+# Plot results
+block.plot("input")
+block.plot("noise_removed")
+block.plot("signal_removed")
+
+# Noise model outputs
+plt.figure()
+plt.title("Noise model")
+
+# Get the noise model
+tag = block.noise_model_tag
+print("Noise model estimated from '%s' data."%tag)
+waves = block.get_wavelets(tag).select(network="YW", station="5014")
+
+# Plot figure
+scales = np.log10(waves[0].scales)
+plt.plot(scales, waves[0].noise_model.M,"k",label="mean")
+plt.plot(scales, waves[0].noise_model.P,"g",label="threshold")
+plt.xlim([-2.5, 2.5])
+plt.legend()
+# -
+
 # #### Test ASDF format
 
 # +
-filename = "testdata/bondar_2015_data/578449.h5"
+filename = "testdata/578449.h5"
 
 params = bcs.Parameter(block_threshold=1.0, noise_threshold="hard", signal_threshold="hard")
 
@@ -218,3 +253,6 @@ print(npzfile.files)
 block.write(tag, output=output, format="npz", filename=filename)
 npzfile = np.load("junk.cwt.npz")
 print(npzfile.files)
+# -
+
+

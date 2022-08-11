@@ -1,6 +1,6 @@
-pyBlockSeis
+pySolate
 ===========
-`pyblockseis` (Block Choice Seismic Analysis in Python) is a tool for processing seismic data using
+`pysolate` is a tool for processing seismic data using
 continuous wavelet transform (CWT). The tool is based on the Matlab software
 [Block Choice Seismic Analysis](http://www.ceri.memphis.edu/people/clangstn/software.html)
 (BCseis, version 1.1) by Charles A. Langston and S. Mostafa Mousavi.
@@ -14,7 +14,6 @@ Installation
 
 Documentation
 -------------
-Link to PDF version [here](pyblockseis.pdf).
 
 Acknowledgements
 ----------------

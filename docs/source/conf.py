@@ -3,7 +3,7 @@
 # LLNL-CODE-XXXXXX
 # author: Andrea Chiang (andrea4@llnl.gov)
 #
-# pyblockseis documentation build configuration file.
+# pysolate documentation build configuration file.
 #
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
@@ -24,20 +24,20 @@ sys.path.insert(0, os.path.abspath('../../src'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'pyblockseis'
+project = 'pysolate'
 copyright = '2021, Lawrence Livermore National Security, LLC'
 author = 'Ana Aguiar Moya and Andrea Chiang'
 
 # The short X.Y version.
-import pyblockseis
+import pysolate
 from packaging.version import parse
-parsed_version = parse(pyblockseis.__version__)
+parsed_version = parse(pysolate.__version__)
 version = ".".join(parsed_version.base_version.split(".")[:2])
 # The full version, including alpha/beta/rc tags
 if parsed_version.is_postrelease:
     release = parsed_version.base_version
 else:
-    release = pyblockseis.__version__
+    release = pysolate.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -104,7 +104,7 @@ autoclass_content = 'class'
 pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
-modindex_common_prefix = ['pyblockseis.']
+modindex_common_prefix = ['pysolate.']
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
@@ -138,7 +138,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_short_title = 'pyblockseis'
+html_short_title = 'pysolate'
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.
@@ -233,7 +233,7 @@ html_show_sourcelink = True
 html_show_copyright = True
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pyblockseisdoc'
+htmlhelp_basename = 'pysolatedoc'
 
 # If true, the reST sources are included in the HTML build as _sources/name.
 html_copy_source = True

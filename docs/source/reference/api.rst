@@ -5,7 +5,7 @@
 API Reference
 =============
 
-This page gives an overview of all public pyblockseis objects, functions
+This page gives an overview of all public pysolate objects, functions
 and methods.
 
 Core Modules
@@ -16,7 +16,7 @@ Core Modules
    :toctree: autogen
    :nosignatures:
 
-   pyblockseis.block
-   pyblockseis.waveforms
-   pyblockseis.wavelet
-   pyblockseis.threshold
+   pysolate.block
+   pysolate.waveforms
+   pysolate.wavelet
+   pysolate.threshold

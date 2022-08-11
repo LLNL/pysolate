@@ -1,10 +1,10 @@
 
 .. raw:: html
 
-   <h1 class="card-title">pyBlockSeis<br>
+   <h1 class="card-title">pySolate<br>
    <small>Block Choice Seismic Analysis in Python</small></h1>
 
-pyBlockSeis is a Python tool for processing seismic data using the
+pySolate is a Python tool for processing seismic data using the
 continuous wavelet transform (CWT).
 
 Documentation

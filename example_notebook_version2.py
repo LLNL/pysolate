@@ -19,8 +19,9 @@
 import sys
 sys.path.append("src")
 
+import timeit
 import numpy as np
-import pyblockseis as bcs
+import pysolate as bcs
 import matplotlib.pyplot as plt
 
 from obspy.core import read, Stream
@@ -99,6 +100,7 @@ params = bcs.Parameter(
     noise_threshold="soft",
 )
 
+start = timeit.default_timer()
 # Create a block object for each event
 blocks = []
 for evid in [511553, 514907, 515492, 578449]:
@@ -117,6 +119,9 @@ for evid in [511553, 514907, 515492, 578449]:
     block.run()
     blocks.append(block)
 
+end = timeit.default_timer()
+print("Run took %.4f seconds"%(end - start))
+#Run took 5.4824 seconds
 # -
 
 for i, block in enumerate(blocks):
