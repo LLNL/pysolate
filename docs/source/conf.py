@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.abspath('../../src'))
 
 project = 'pysolate'
 copyright = '2021, Lawrence Livermore National Security, LLC'
-author = 'Ana Aguiar Moya and Andrea Chiang'
+author = 'Ana Aguiar and Andrea Chiang'
 
 # The short X.Y version.
 import pysolate

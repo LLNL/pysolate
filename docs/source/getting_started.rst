@@ -8,6 +8,7 @@ Getting started
 Requirements
 ------------
 * ObsPy and its dependencies
+* pyasdf
 
 Installation
 ------------
