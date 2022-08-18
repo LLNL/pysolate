@@ -8,9 +8,11 @@ ObsPy and its dependencies, pyasdf.
 
 Installation
 ------------
+pip install .
 
 Documentation
 -------------
+See example folder
 
 Acknowledgements
 ----------------
