@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: (LGPL-3.0)
 # LLNL-CODE-XXXXX
 # authors:
-#        Ana Aguiar Moya (aguiarmoya1@llnl.gov)
+#        Ana Aguiar (aguiarmoya1@llnl.gov)
 #        Andrea Chiang (andrea@llnl.gov)
 """
 Non-linear thresholding operations using the continuous wavelet transform

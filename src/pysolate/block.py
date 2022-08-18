@@ -3,7 +3,7 @@
 # LLNL-CODE-XXXXX
 # authors:
 #        Andrea Chiang (andrea@llnl.gov)
-#        Ana Aguiar Moya (aguiarmoya1@llnl.gov)
+#        Ana Aguiar (aguiarmoya1@llnl.gov)
 """
 Core module for pySolate
 """
