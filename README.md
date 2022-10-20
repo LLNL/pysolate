@@ -25,11 +25,10 @@ Forward and inverse CWTs functions based on the
 
 License
 -------
-pysolate is distributed under the terms of LGPL-3.0 license.
-All new contributions must be made under the LGPL-3.0 license.
+pysolate is distributed under the terms of the MIT license. All new contributions must be made under this license.
 
-SPDX-License-Identifier: LGPL-3.0
+SPDX-License-Identifier: MIT
 
-LLNL-CODE-000000
+LLNL-CODE-841231
 
 **Note: the code is still under development, your feedback is appreciated.**

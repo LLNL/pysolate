@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# SPDX-License-Identifier: (LGPL-3.0)
-# LLNL-CODE-XXXXX
+# SPDX-License-Identifier: MIT
+# LLNL-CODE-841231
 # authors:
 #        Andrea Chiang (andrea@llnl.gov)
 #        Ana Aguiar (aguiarmoya1@llnl.gov)
