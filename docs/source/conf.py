@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: MIT
-# LLNL-CODE-XXXXXX
-# author: Andrea Chiang (andrea4@llnl.gov)
+# LLNL-CODE-841231
+# author: Andrea Chiang (andrea@llnl.gov)
 #
 # pysolate documentation build configuration file.
 #
