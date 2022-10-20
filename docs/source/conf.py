@@ -113,6 +113,7 @@ intersphinx_mapping = {
     'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
     'matplotlib': ('http://matplotlib.org/', None),
     'obspy': ('https://docs.obspy.org/', None),
+    'pyasdf': ('https://seismicdata.github.io/pyasdf/', None),
 }
 
 # warn about *all* references where the target cannot be found
