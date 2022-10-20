@@ -158,7 +158,7 @@ html_theme_options = {
     # an arbitrary url.
     'navbar_links': [
     #    ("Examples", "examples"),
-        ("GitHub", "https://mybitbucket.llnl.gov/users/aguiarmoya1/repos/denoiser", True),
+        ("GitHub", "https://github.com/LLNL/pysolate", True),
     ],
 
     # Render the next and previous page links in navbar. (Default: true)
