@@ -1,5 +1,8 @@
 pySolate
 ===========
+
+[![Documentation Status](https://readthedocs.org/projects/pysolate/badge/?version=latest)](https://pysolate.readthedocs.io/en/latest/?badge=latest)
+
 `pysolate` is a seismic data processing tool using continuous wavelet transform (CWT).
 
 Requirements
@@ -12,7 +15,7 @@ pip install .
 
 Documentation
 -------------
-See example folder
+See example folder and [online documentation](https://pysolate.readthedocs.io/en/latest/)
 
 Acknowledgements
 ----------------
